@@ -1,27 +1,27 @@
 package flourite
 
-var goLang = []LanguagePattern{
-	{Pattern: `package\s+[a-z]+\n`, Type: MetaModule, NearTop: true},
-	{Pattern: `(import\s*\(\s*\n)|(import\s+"[a-z0-9/.]+")`, Type: MetaImport, NearTop: true},
+var goLang = []languagePattern{
+	{expression: `package\s+[a-z]+\n`, patternType: metaModule, nearTop: true},
+	{expression: `(import\s*\(\s*\n)|(import\s+"[a-z0-9/.]+")`, patternType: metaImport, nearTop: true},
 
 	// error handling
-	{Pattern: `if.+err\s*!=\s*nil.+{`, Type: KeywordFunction},
+	{expression: `if.+err\s*!=\s*nil.+{`, patternType: keywordFunction},
 
-	{Pattern: `fmt\.Print(f|ln)?\(.*\)`, Type: KeywordPrint},
-	{Pattern: `func(\s+\w+\s*)?\(.*\).*{`, Type: KeywordFunction},
-	{Pattern: `\w+\s*:=\s*.+[^;\n]`, Type: KeywordVariable},
-	{Pattern: `(var|const)\s+\w+\s+[\w*]+(\n|\s*=|$)`, Type: KeywordVariable},
-	{Pattern: `(}\s*else\s*)?if[^()]+{`, Type: KeywordControl},
-	{Pattern: `nil`, Type: Keyword},
+	{expression: `fmt\.Print(f|ln)?\(.*\)`, patternType: keywordPrint},
+	{expression: `func(\s+\w+\s*)?\(.*\).*{`, patternType: keywordFunction},
+	{expression: `\w+\s*:=\s*.+[^;\n]`, patternType: keywordVariable},
+	{expression: `(var|const)\s+\w+\s+[\w*]+(\n|\s*=|$)`, patternType: keywordVariable},
+	{expression: `(}\s*else\s*)?if[^()]+{`, patternType: keywordControl},
+	{expression: `nil`, patternType: keyword},
 
 	// public access identifier
-	{Pattern: `[a-z]+\.[A-Z]\w*`, Type: Macro},
+	{expression: `[a-z]+\.[A-Z]\w*`, patternType: macro},
 
 	// single quote with multichar
-	{Pattern: `'.{2,}'`, Type: Not},
+	{expression: `'.{2,}'`, patternType: not},
 
 	// avoiding C# confusion
-	{Pattern: `Console\.(WriteLine|Write)(\s*)?\(`, Type: Not},
-	{Pattern: `using\sSystem(\..*)?(;)?`, Type: Not},
-	{Pattern: `(public|private|protected|internal)\s`, Type: Not},
+	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},
+	{expression: `using\sSystem(\..*)?(;)?`, patternType: not},
+	{expression: `(public|private|protected|internal)\s`, patternType: not},
 }

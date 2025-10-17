@@ -10,20 +10,20 @@ type Detector struct {
 	Heuristic bool
 }
 
-func (d Detector) Detect(snippet string) detectedLanguages {
+func (d Detector) Detect(snippet string) DetectedLanguages {
 	snippet = regexp.MustCompile(`[\r\n]+`).ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
 
 	// TODO: check heuristic options with lines > 500
 	// TODO: shebang check
 
-	results := make(detectedLanguages, 0, len(langNames))
+	results := make(DetectedLanguages, 0, len(langNames))
 	if d.IsUnknown {
 		results = append(results, LangPoint{Unknown, 1})
 	}
 
-	for lang, _ := range langNames {
-		patterns, ok := getPatterns(LangKind(lang))
+	for i := 0; i < len(langNames); i++ {
+		patterns, ok := getPatterns(LangKind(i))
 		if !ok {
 			continue
 		}
@@ -35,28 +35,28 @@ func (d Detector) Detect(snippet string) detectedLanguages {
 				continue
 			}
 
-			points += getPoints(lines[i], patterns, nearTop(i, lines))
+			points += getPoints(lines[i], patterns, isNearTop(i, lines))
 		}
 
-		results = append(results, LangPoint{LangKind(lang), points})
+		results = append(results, LangPoint{LangKind(i), points})
 	}
 
 	return results
 }
 
-type detectedLanguages []LangPoint
+type DetectedLanguages []LangPoint
 
-func (lp detectedLanguages) Best() LangPoint {
+func (lp DetectedLanguages) Best() LangPoint {
 	var best LangPoint = lp[0]
 	for i := 1; i < len(lp); i++ {
-		if lp[i].points >= best.points {
+		if lp[i].Points >= best.Points {
 			best = lp[i]
 		}
 	}
 	return best
 }
 
-func (lp detectedLanguages) String() string {
+func (lp DetectedLanguages) String() string {
 	s := strings.Builder{}
 	for i, l := range lp {
 		if i > 0 {

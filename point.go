@@ -6,64 +6,64 @@ import (
 )
 
 type LangPoint struct {
-	language LangKind
-	points   int
+	Language LangKind
+	Points   int
 }
 
 func (lp LangPoint) String() string {
-	return lp.language.String() + "=" + strconv.Itoa(lp.points)
+	return lp.Language.String() + "=" + strconv.Itoa(lp.Points)
 }
 
-func parsePoint(p PatternType) int {
+func parsePoint(p patternType) int {
 	switch p {
-	case KeywordPrint, MetaImport, MetaModule:
+	case keywordPrint, metaImport, metaModule:
 		return 5
-	case KeywordFunction, ConstantNull:
+	case keywordFunction, constantNull:
 		return 4
-	case ConstantType,
-		ConstantString,
-		ConstantNumeric,
-		ConstantBoolean,
-		ConstantDictionary,
-		ConstantArray,
-		KeywordVariable:
+	case constantType,
+		constantString,
+		constantNumeric,
+		constantBoolean,
+		constantDictionary,
+		constantArray,
+		keywordVariable:
 		return 3
-	case SectionScope,
-		KeywordOther,
-		KeywordOperator,
-		KeywordControl,
-		KeywordVisibility,
-		Keyword:
+	case sectionScope,
+		keywordOther,
+		keywordOperator,
+		keywordControl,
+		keywordVisibility,
+		keyword:
 		return 2
-	case CommentBlock,
-		CommentLine,
-		CommentDocumentation,
-		Macro:
+	case commentBlock,
+		commentLine,
+		commentDocumentation,
+		macro:
 		return 1
-	case Not:
+	case not:
 		return 0
 	default:
 		return -20
 	}
 }
 
-func getPoints(line string, patterns []LanguagePattern, isTop bool) int {
+func getPoints(line string, patterns []languagePattern, isNearTop bool) int {
 	var points int
 	for _, languagePattern := range patterns {
-		if languagePattern.NearTop != isTop {
+		if languagePattern.nearTop != isNearTop {
 			continue
 		}
 
-		re := regexp.MustCompile(languagePattern.Pattern)
+		re := regexp.MustCompile(languagePattern.expression)
 		if valid := re.Match([]byte(line)); valid {
-			points += parsePoint(languagePattern.Type)
+			points += parsePoint(languagePattern.patternType)
 		}
 	}
 
 	return points
 }
 
-func nearTop(i int, lines []string) bool {
+func isNearTop(i int, lines []string) bool {
 	if len(lines) <= 10 {
 		return true
 	}

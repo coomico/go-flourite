@@ -23,7 +23,7 @@ var langNames = []string{
 	JavaScript: "JavaScript",
 }
 
-func getPatterns(lang LangKind) ([]LanguagePattern, bool) {
+func getPatterns(lang LangKind) ([]languagePattern, bool) {
 	switch lang {
 	case Go:
 		return goLang, true

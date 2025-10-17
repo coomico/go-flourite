@@ -1,95 +1,95 @@
 package flourite
 
-type PatternType uint8
+type patternType uint8
 
 const (
-	// Not is a pattern that do not exist in the current language
-	Not PatternType = iota
+	// not is a pattern that do not exist in the current language
+	not patternType = iota
 
-	// Macro is a pattern likes @println()
-	Macro
+	// macro is a pattern likes @println()
+	macro
 
-	// MetaImport is a importing pattern
+	// metaImport is an importing pattern
 	// such as import(), require(), import "", #include <>
-	MetaImport
+	metaImport
 
-	// MetaModule is a module or package pattern
+	// metaModule is a module or package pattern
 	// such as package <name>, module <name>
-	MetaModule
+	metaModule
 
-	// SectionScope is a scope pattern
+	// sectionScope is a scope pattern
 	// such as begin & end
-	SectionScope
+	sectionScope
 
-	// Keyword is a universal keyword pattern
+	// keyword is a universal keyword pattern
 	// such as namespace and class
-	Keyword
+	keyword
 
-	// KeywordPrint is a print keyword pattern
+	// keywordPrint is a print keyword pattern
 	// such as println, echo, console.log(), System.WriteLine()
-	KeywordPrint
+	keywordPrint
 
-	// KeywordFunction is a function keyword pattern
+	// keywordFunction is a function keyword pattern
 	// such as func name() {, function name() {, fn name() {, def name:
-	KeywordFunction
+	keywordFunction
 
-	// KeywordVariable is a variable keyword pattern
+	// keywordVariable is a variable keyword pattern
 	// such as var, let, const
-	KeywordVariable
+	keywordVariable
 
-	// KeywordOperator is an operator keyword pattern
+	// keywordOperator is an operator keyword pattern
 	// such as >, <, -, <<
-	KeywordOperator
+	keywordOperator
 
-	// KeywordControl is a control keyword pattern
+	// keywordControl is a control keyword pattern
 	// such as if, while, for, return, break, continue
-	KeywordControl
+	keywordControl
 
-	// KeywordVisibility is a visibility keyword pattern
+	// keywordVisibility is a visibility keyword pattern
 	// such as public, private, protected
-	KeywordVisibility
+	keywordVisibility
 
-	// KeywordOther is another keyword pattern designed for specific purpose
+	// keywordOther is another keyword pattern designed for specific purpose
 	// such as async, await, crate, extern
-	KeywordOther
+	keywordOther
 
-	// ConstantNull is a null constant pattern
+	// constantNull is a null constant pattern
 	// such as null, undefined, nil
-	ConstantNull
+	constantNull
 
-	// ConstantType is a type constant pattern
-	ConstantType
+	// constantType is a type constant pattern
+	constantType
 
-	// ConstantString is a string constant pattern
-	ConstantString
+	// constantString is a string constant pattern
+	constantString
 
-	// ConstantNumeric is a numeric constant pattern
+	// constantNumeric is a numeric constant pattern
 	// such as int, uint, float, double
-	ConstantNumeric
+	constantNumeric
 
 	// ConstantBoolean is a boolean constant pattern
 	// such as true, True, false, False
-	ConstantBoolean
+	constantBoolean
 
-	// ConstantDictionary is a dictionary constant pattern
+	// constantDictionary is a dictionary constant pattern
 	// such as dict, object, associate array
-	ConstantDictionary
+	constantDictionary
 
-	// ConstantArray is an array constant pattern
-	ConstantArray
+	// constantArray is an array constant pattern
+	constantArray
 
-	// CommentBlock is multiline of comments
-	CommentBlock
+	// commentBlock is multiline of comments
+	commentBlock
 
-	// CommentLine is a single block of comment
-	CommentLine
+	// commentLine is a single block of comment
+	commentLine
 
-	// CommentDocumentation indicates documentation
-	CommentDocumentation
+	// commentDocumentation indicates documentation
+	commentDocumentation
 )
 
-type LanguagePattern struct {
-	Type    PatternType
-	Pattern string
-	NearTop bool
+type languagePattern struct {
+	patternType patternType
+	expression  string
+	nearTop     bool
 }
