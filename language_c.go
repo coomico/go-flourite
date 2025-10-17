@@ -1,6 +1,6 @@
 package flourite
 
-var c = []LanguagePattern{
+var cLang = []LanguagePattern{
 	{Pattern: `(char|long|int|float|double)\s+\w+\s*=?`, Type: ConstantType},
 	{Pattern: `malloc\(.+\)`, Type: KeywordFunction},
 	{Pattern: `#include (<|")\w+\.h(>|")`, Type: MetaImport, NearTop: true},
@@ -42,7 +42,10 @@ var c = []LanguagePattern{
 	{Pattern: `(using\s)?System(\..*)?(;)?`, Type: Not},
 	{Pattern: `(public\s)?((partial|static|delegate)\s)?(class\s)`, Type: Not},
 	{Pattern: `(public|private|protected|internal)`, Type: Not},
-	{Pattern: `(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`, Type: Not},
+	{
+		Pattern: `(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`,
+		Type:    Not,
+	},
 
 	// avoiding Lua confusion
 	{Pattern: `local\s(function|\w+)?`, Type: Not},

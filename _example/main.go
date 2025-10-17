@@ -7,30 +7,34 @@ import (
 )
 
 func main() {
-	snippet := `package main
+	snippet := `import express from 'express';
+import http from 'http';
+import PG from './config/pg.js';
+import Associate from './config/associate.js';
+import ClassRouter from './routes/class.route.js';
+import StudentRouter from './routes/student.route.js';
+import InnovationRouter from './routes/innovation.route.js';
 
-import "fmt"
+const app = express();
+const httpServer = http.createServer(app);
 
-/*
-	#cgo LDFLAGS: -lm
-	#include <stdio.h>
-	#include <math.h>
-	#include "mylib.h"
+app.use(express.json());
 
-	int add(int a, int b) {
-		int sum = a + b;
-		printf("a: %d, b: %d, sum %d\n", a, b, sum);
-		return sum;
-	}
-*/
-import "C"
+app.use("/student", StudentRouter);
+app.use("/class", ClassRouter);
+app.use("/innovation", InnovationRouter);
 
-func main() {
-	sum := C.add(3, 2)
-	fmt.Println(sum)
-	fmt.Println(C.sqrt(100))
-	fmt.Println(C.multiply(10, 20))
-}`
+// test connection
+app.get("/ping", (req, res) => {
+  res.json({ping: "pong"});
+})
+
+const port = 3002;
+httpServer.listen(port, async () => {
+  Associate.init();
+  await PG.repo.sync();
+  console.log("running on port: ${port}");
+});`
 
 	detector := flourite.Detector{}
 	res := detector.Detect(snippet)
