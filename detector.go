@@ -1,20 +1,30 @@
 package flourite
 
 import (
+	"math"
 	"regexp"
 	"strings"
 )
 
-type Detector struct {
+type detector struct {
 	IsUnknown bool
 	Heuristic bool
 }
 
-func (d Detector) Detect(snippet string) DetectedLanguages {
+func NewDetector() detector {
+	return detector{
+		Heuristic: true,
+	}
+}
+
+func (d detector) Detect(snippet string) DetectedLanguages {
 	snippet = regexp.MustCompile(`[\r\n]+`).ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
 
-	// TODO: check heuristic options with lines > 500
+	if d.Heuristic && len(lines) > 500 {
+		lines = heuristicOptimization(lines)
+	}
+
 	// TODO: shebang check
 
 	results := make(DetectedLanguages, 0, len(langNames))
@@ -59,12 +69,27 @@ func (lp DetectedLanguages) Best() LangPoint {
 func (lp DetectedLanguages) String() string {
 	s := strings.Builder{}
 	for i, l := range lp {
-		if i > 0 {
-			s.WriteString("\n")
+		if i > 0 && i < len(lp) {
+			s.WriteString(";")
 		}
 
 		s.WriteString(l.String())
 	}
 
 	return s.String()
+}
+
+func heuristicOptimization(lines []string) []string {
+	length := len(lines)
+	out := make([]string, 0, length)
+
+	for i := 0; i < length; i++ {
+		// position of the line must be near the top or divisible by ⌈length / 500⌉
+		if !isNearTop(i, lines) && i%int(math.Ceil(float64(length)/500)) != 0 {
+			continue
+		}
+
+		out = append(out, lines[i])
+	}
+	return out
 }
