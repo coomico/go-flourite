@@ -1,53 +1,53 @@
 package flourite
 
-var js = []LanguagePattern{
-	{Pattern: `undefined`, Type: Keyword},
-	{Pattern: `window\.`, Type: Keyword},
-	{Pattern: `console\.log\s*\(`, Type: KeywordPrint},
-	{Pattern: `(var|const|let)\s+\w+\s*=?`, Type: KeywordVariable},
+var js = []languagePattern{
+	{expression: `undefined`, patternType: keyword},
+	{expression: `window\.`, patternType: keyword},
+	{expression: `console\.log\s*\(`, patternType: keywordPrint},
+	{expression: `(var|const|let)\s+\w+\s*=?`, patternType: keywordVariable},
 
 	// array/object declaration
-	{Pattern: `(('|").+('|")\s*|\w+):\s*[{[]`, Type: ConstantArray},
+	{expression: `(('|").+('|")\s*|\w+):\s*[{[]`, patternType: constantArray},
 
-	{Pattern: `===`, Type: KeywordOperator},
-	{Pattern: `!==`, Type: KeywordOperator},
-	{Pattern: `function\*?\s*([A-Za-z$_][\w$]*)?\s*[(][^:;()]*[)]\s*{`, Type: KeywordFunction},
+	{expression: `===`, patternType: keywordOperator},
+	{expression: `!==`, patternType: keywordOperator},
+	{expression: `function\*?\s*([A-Za-z$_][\w$]*)?\s*[(][^:;()]*[)]\s*{`, patternType: keywordFunction},
 
 	// arrow function
-	{Pattern: `\(* => {`, Type: KeywordFunction},
+	{expression: `\(* => {`, patternType: keywordFunction},
 
-	{Pattern: `null`, Type: ConstantNull},
+	{expression: `null`, patternType: constantNull},
 
 	// lambda expression
-	{Pattern: `\(.*\)\s*=>\s*.+`, Type: KeywordControl},
+	{expression: `\(.*\)\s*=>\s*.+`, patternType: keywordControl},
 
-	{Pattern: `(else )?if\s+\(.+\)`, Type: KeywordControl},
-	{Pattern: `while\s+\(.+\)`, Type: KeywordControl},
+	{expression: `(else )?if\s+\(.+\)`, patternType: keywordControl},
+	{expression: `while\s+\(.+\)`, patternType: keywordControl},
 
 	// C style variable declaration
-	{Pattern: `(^|\s)(char|long|int|float|double)\s+\w+\s*=?`, Type: Not},
+	{expression: `(^|\s)(char|long|int|float|double)\s+\w+\s*=?`, patternType: not},
 
 	// pointer
-	{Pattern: `\*\w+`, Type: Not},
+	{expression: `\*\w+`, patternType: not},
 
 	// HTML script tag
-	{Pattern: `<(\/)?script( type=('|")text\/javascript('|"))?>`, Type: Not},
-	{Pattern: `fn\s[A-Za-z0-9<>,]+\(.*\)\s->\s\w+(\s\{|)`, Type: Not},
+	{expression: `<(\/)?script( type=('|")text\/javascript('|"))?>`, patternType: not},
+	{expression: `fn\s[A-Za-z0-9<>,]+\(.*\)\s->\s\w+(\s\{|)`, patternType: not},
 
 	// avoiding C# confusion
-	{Pattern: `Console\.(WriteLine|Write)(\s*)?\(`, Type: Not},
-	{Pattern: `(using\s)?System(\..*)?(;)?`, Type: Not},
-	{Pattern: `(func|fn)\s`, Type: Not},
-	{Pattern: `(begin|end)\n`, Type: Not},
+	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},
+	{expression: `(using\s)?System(\..*)?(;)?`, patternType: not},
+	{expression: `(func|fn)\s`, patternType: not},
+	{expression: `(begin|end)\n`, patternType: not},
 
 	// avoiding Lua confusion
-	{Pattern: `local\s(function|(\w+)\s=)`, Type: Not},
+	{expression: `local\s(function|(\w+)\s=)`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{Pattern: `fun main\((.*)?\) {`, Type: Not},
-	{Pattern: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`, Type: Not},
-	{Pattern: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, Type: Not},
+	{expression: `fun main\((.*)?\) {`, patternType: not},
+	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`, patternType: not},
+	{expression: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, patternType: not},
 
 	// avoiding Dart confusion
-	{Pattern: `^(void\s)?main()\s{`, Type: Not},
+	{expression: `^(void\s)?main()\s{`, patternType: not},
 }

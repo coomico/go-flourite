@@ -89,7 +89,7 @@ const (
 )
 
 type languagePattern struct {
-	patternType patternType
 	expression  string
+	patternType patternType
 	nearTop     bool
 }

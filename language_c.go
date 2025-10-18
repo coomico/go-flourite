@@ -1,55 +1,55 @@
 package flourite
 
-var cLang = []LanguagePattern{
-	{Pattern: `(char|long|int|float|double)\s+\w+\s*=?`, Type: ConstantType},
-	{Pattern: `malloc\(.+\)`, Type: KeywordFunction},
-	{Pattern: `#include (<|")\w+\.h(>|")`, Type: MetaImport, NearTop: true},
+var cLang = []languagePattern{
+	{expression: `(char|long|int|float|double)\s+\w+\s*=?`, patternType: constantType},
+	{expression: `malloc\(.+\)`, patternType: keywordFunction},
+	{expression: `#include (<|")\w+\.h(>|")`, patternType: metaImport, nearTop: true},
 
 	// pointer
-	{Pattern: `(\w+)\s*\*\s*\w+`, Type: Keyword},
+	{expression: `(\w+)\s*\*\s*\w+`, patternType: keyword},
 
 	// var declaration and/or initialisation
-	{Pattern: `(\w+)\s+\w+(;|\s*=)`, Type: Macro},
+	{expression: `(\w+)\s+\w+(;|\s*=)`, patternType: macro},
 
 	// array declaration
-	{Pattern: `(\w+)\s+\w+\[.+\]`, Type: KeywordOther},
+	{expression: `(\w+)\s+\w+\[.+\]`, patternType: keywordOther},
 
 	// #define macro
-	{Pattern: `#define\s+.+`, Type: Macro},
+	{expression: `#define\s+.+`, patternType: macro},
 
-	{Pattern: `/NULL/`, Type: ConstantNull},
-	{Pattern: `void`, Type: KeywordOther},
-	{Pattern: `(printf|puts)\s*\(.+\)`, Type: KeywordPrint},
+	{expression: `/NULL/`, patternType: constantNull},
+	{expression: `void`, patternType: keywordOther},
+	{expression: `(printf|puts)\s*\(.+\)`, patternType: keywordPrint},
 
 	// `new` keyword from C++
-	{Pattern: `new \w+`, Type: Not},
+	{expression: `new \w+`, patternType: not},
 
 	// `new` keyword from Java
-	{Pattern: `new [A-Z]\w*\s*\(.+\)`, Type: Not},
+	{expression: `new [A-Z]\w*\s*\(.+\)`, patternType: not},
 
 	// single quote with multichar
-	{Pattern: `'.{2,}'`, Type: Not},
+	{expression: `'.{2,}'`, patternType: not},
 
 	// JS variable declaration
-	{Pattern: `var\s+\w+\s*=?`, Type: Not},
+	{expression: `var\s+\w+\s*=?`, patternType: not},
 
 	// avoiding Ruby confusion
-	{Pattern: `/def\s+\w+\s*(\(.+\))?\s*\n/`, Type: Not},
-	{Pattern: `/puts\s+("|').+("|')/`, Type: Not},
+	{expression: `/def\s+\w+\s*(\(.+\))?\s*\n/`, patternType: not},
+	{expression: `/puts\s+("|').+("|')/`, patternType: not},
 
 	// avoiding C# confusion
-	{Pattern: `Console\.(WriteLine|Write)(\s*)?\(`, Type: Not},
-	{Pattern: `(using\s)?System(\..*)?(;)?`, Type: Not},
-	{Pattern: `(public\s)?((partial|static|delegate)\s)?(class\s)`, Type: Not},
-	{Pattern: `(public|private|protected|internal)`, Type: Not},
+	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},
+	{expression: `(using\s)?System(\..*)?(;)?`, patternType: not},
+	{expression: `(public\s)?((partial|static|delegate)\s)?(class\s)`, patternType: not},
+	{expression: `(public|private|protected|internal)`, patternType: not},
 	{
-		Pattern: `(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`,
-		Type:    Not,
+		expression:  `(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`,
+		patternType: not,
 	},
 
 	// avoiding Lua confusion
-	{Pattern: `local\s(function|\w+)?`, Type: Not},
+	{expression: `local\s(function|\w+)?`, patternType: not},
 
 	// avoiding Dart confusion
-	{Pattern: `^(void\s)?main\(\)\s(async\s)?{`, Type: Not},
+	{expression: `^(void\s)?main\(\)\s(async\s)?{`, patternType: not},
 }
