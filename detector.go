@@ -2,6 +2,7 @@ package flourite
 
 import (
 	"math"
+	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -25,25 +26,11 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 		lines = heuristicOptimization(lines)
 	}
 
-	// shebang check
 	if strings.Contains(lines[0], "#!") {
-		if strings.Contains(lines[0], "#!/bin/bash") {
+		interpreter := interpreterCheck(lines[0])
+		if lang, ok := interpreterMap[interpreter]; ok {
 			return DetectedLanguages{
-				{Bash, 5},
-			}
-		}
-
-		if strings.Contains(lines[0], "#!/usr/bin/env") {
-			interpreter := strings.Split(lines[0], " ")[1]
-			if lang, ok := shebangMap[interpreter]; ok {
-				return DetectedLanguages{
-					{lang, 5},
-				}
-			}
-
-			// TODO: pass on the given interpreter name
-			return DetectedLanguages{
-				{Unknown, 1},
+				{lang, 5},
 			}
 		}
 	}
@@ -98,6 +85,27 @@ func (lp DetectedLanguages) String() string {
 	}
 
 	return s.String()
+}
+
+// https://github.com/dayvonjersen/linguist/blob/c82f0abfd1c3a1d6b4c467489292d22ea1907a4f/linguist.go#L131
+func interpreterCheck(s string) string {
+	shebangExpr := regexp.MustCompile(`^#!\s*(\S+)(?:\s+(\S+))?.*`)
+	shebang := shebangExpr.FindStringSubmatch(s)
+	if shebang == nil || len(shebang) != 3 {
+		return ""
+	}
+
+	base := filepath.Base(shebang[1])
+	if base == "env" {
+		if shebang[2] == "" {
+			return ""
+		}
+
+		base = shebang[2]
+	}
+
+	versionExpr := regexp.MustCompile(`((?:\d+\.?)+)`)
+	return versionExpr.ReplaceAllString(base, "")
 }
 
 func heuristicOptimization(lines []string) []string {
