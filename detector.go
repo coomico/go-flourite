@@ -25,7 +25,28 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 		lines = heuristicOptimization(lines)
 	}
 
-	// TODO: shebang check
+	// shebang check
+	if strings.Contains(lines[0], "#!") {
+		if strings.Contains(lines[0], "#!/bin/bash") {
+			return DetectedLanguages{
+				{Bash, 5},
+			}
+		}
+
+		if strings.Contains(lines[0], "#!/usr/bin/env") {
+			interpreter := strings.Split(lines[0], " ")[1]
+			if lang, ok := shebangMap[interpreter]; ok {
+				return DetectedLanguages{
+					{lang, 5},
+				}
+			}
+
+			// TODO: pass on the given interpreter name
+			return DetectedLanguages{
+				{Unknown, 1},
+			}
+		}
+	}
 
 	results := make(DetectedLanguages, 0, len(langNames))
 	if d.IsUnknown {

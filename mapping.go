@@ -4,8 +4,10 @@ type LangKind uint
 
 const (
 	Unknown LangKind = iota
-	Go
+	// should be sorted alphabetically
+	Bash
 	C
+	Go
 	JavaScript
 )
 
@@ -18,9 +20,15 @@ func (l LangKind) String() string {
 
 var langNames = []string{
 	Unknown:    "Unknown",
-	Go:         "Go",
+	Bash:       "Bash",
 	C:          "C",
+	Go:         "Go",
 	JavaScript: "JavaScript",
+}
+
+var shebangMap = map[string]LangKind{
+	"node": JavaScript,
+	"jsc":  JavaScript,
 }
 
 func getPatterns(lang LangKind) ([]languagePattern, bool) {
