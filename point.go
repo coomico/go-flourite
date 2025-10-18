@@ -50,7 +50,7 @@ func parsePoint(p patternType) int {
 func getPoints(line string, patterns []languagePattern, isNearTop bool) int {
 	var points int
 	for _, languagePattern := range patterns {
-		if languagePattern.nearTop != isNearTop {
+		if languagePattern.nearTop && !isNearTop {
 			continue
 		}
 
