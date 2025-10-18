@@ -40,7 +40,7 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 		results = append(results, LangPoint{Unknown, 1})
 	}
 
-	for i := 0; i < len(langNames); i++ {
+	for i := 1; i < len(langNames); i++ {
 		patterns, ok := getPatterns(LangKind(i))
 		if !ok {
 			continue
