@@ -87,6 +87,7 @@ func (lp DetectedLanguages) String() string {
 	return s.String()
 }
 
+// acknowledge:
 // https://github.com/dayvonjersen/linguist/blob/c82f0abfd1c3a1d6b4c467489292d22ea1907a4f/linguist.go#L131
 func interpreterCheck(s string) string {
 	shebangExpr := regexp.MustCompile(`^#!\s*(\S+)(?:\s+(\S+))?.*`)

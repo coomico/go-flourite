@@ -6,6 +6,7 @@ const (
 	Unknown LangKind = iota
 	// should be sorted alphabetically
 	C
+	Clojure
 	Go
 	JavaScript
 	Python
@@ -22,6 +23,7 @@ func (l LangKind) String() string {
 var langNames = []string{
 	Unknown:    "Unknown",
 	C:          "C",
+	Clojure:    "Clojure",
 	Go:         "Go",
 	JavaScript: "JavaScript",
 	Python:     "Python",
@@ -44,6 +46,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return goLang, true
 	case C:
 		return cLang, true
+	case Clojure:
+		return clojure, true
 	case JavaScript:
 		return js, true
 	default:
