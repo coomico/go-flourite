@@ -20,6 +20,7 @@ const (
 	JSON
 	Julia
 	Kotlin
+	Lua
 	Python
 	Shell
 )
@@ -48,6 +49,7 @@ var langNames = []string{
 	JSON:       "JSON",
 	Julia:      "Julia",
 	Kotlin:     "Kotlin",
+	Lua:        "Lua",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -94,6 +96,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return julia, true
 	case Kotlin:
 		return kotlin, true
+	case Lua:
+		return lua, true
 	default:
 		return nil, false
 	}

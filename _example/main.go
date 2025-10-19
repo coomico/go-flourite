@@ -7,22 +7,26 @@ import (
 )
 
 func main() {
-	snippet := `import java.util.Comparator
- 
-    fun <T> bubbleSort(a: Array<T>, c: Comparator<T>) {
-        var changed: Boolean
-        do {
-            changed = false
-            for (i in 0..a.size - 2) {
-                if (c.compare(a[i], a[i + 1]) > 0) {
-                    val tmp = a[i]
-                    a[i] = a[i + 1]
-                    a[i + 1] = tmp
-                    changed = true
-                }
-            }
-        } while (changed)
-    }`
+	snippet := `function bubbleSort(A)
+    local itemCount=#A
+    local hasChanged
+    repeat
+      hasChanged = false
+      itemCount=itemCount - 1
+      for i = 1, itemCount do
+        if A[i] > A[i + 1] then
+          A[i], A[i + 1] = A[i + 1], A[i]
+          hasChanged = true
+        end
+      end
+    until hasChanged == false
+  end
+
+  list = { 5, 6, 1, 2, 9, 14, 2, 15, 6, 7, 8, 97 }
+  bubbleSort(list)
+  for i, j in pairs(list) do
+      print(j)
+  end`
 
 	res := flourite.Detect(snippet)
 	fmt.Println(res)
