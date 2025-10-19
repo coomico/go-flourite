@@ -18,6 +18,7 @@ const (
 	Java
 	JavaScript
 	JSON
+	Julia
 	Python
 	Shell
 )
@@ -44,6 +45,7 @@ var langNames = []string{
 	Java:       "Java",
 	JavaScript: "JavaScript",
 	JSON:       "JSON",
+	Julia:      "Julia",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -86,6 +88,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return js, true
 	case JSON:
 		return json, true
+	case Julia:
+		return julia, true
 	default:
 		return nil, false
 	}
