@@ -65,7 +65,7 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 type DetectedLanguages []LangPoint
 
 func (dl DetectedLanguages) Best() LangPoint {
-	var best LangPoint = dl[0]
+	best := dl[0]
 	for i := 1; i < len(dl); i++ {
 		if dl[i].Points >= best.Points {
 			best = dl[i]

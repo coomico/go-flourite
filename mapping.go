@@ -10,6 +10,7 @@ const (
 	Cpp
 	CS
 	CSS
+	Dart
 	Go
 	JavaScript
 	Python
@@ -30,6 +31,7 @@ var langNames = []string{
 	Cpp:        "C++",
 	CS:         "C#",
 	CSS:        "CSS",
+	Dart:       "Dart",
 	Go:         "Go",
 	JavaScript: "JavaScript",
 	Python:     "Python",
@@ -60,6 +62,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return cs, true
 	case CSS:
 		return css, true
+	case Dart:
+		return dart, true
 	case JavaScript:
 		return js, true
 	default:
