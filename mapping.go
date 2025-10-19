@@ -9,6 +9,7 @@ const (
 	Clojure
 	Cpp
 	CS
+	CSS
 	Go
 	JavaScript
 	Python
@@ -28,6 +29,7 @@ var langNames = []string{
 	Clojure:    "Clojure",
 	Cpp:        "C++",
 	CS:         "C#",
+	CSS:        "CSS",
 	Go:         "Go",
 	JavaScript: "JavaScript",
 	Python:     "Python",
@@ -56,6 +58,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return cpp, true
 	case CS:
 		return cs, true
+	case CSS:
+		return css, true
 	case JavaScript:
 		return js, true
 	default:
