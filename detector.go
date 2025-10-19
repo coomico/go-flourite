@@ -64,20 +64,20 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 
 type DetectedLanguages []LangPoint
 
-func (lp DetectedLanguages) Best() LangPoint {
-	var best LangPoint = lp[0]
-	for i := 1; i < len(lp); i++ {
-		if lp[i].Points >= best.Points {
-			best = lp[i]
+func (dl DetectedLanguages) Best() LangPoint {
+	var best LangPoint = dl[0]
+	for i := 1; i < len(dl); i++ {
+		if dl[i].Points >= best.Points {
+			best = dl[i]
 		}
 	}
 	return best
 }
 
-func (lp DetectedLanguages) String() string {
+func (dl DetectedLanguages) String() string {
 	s := strings.Builder{}
-	for i, l := range lp {
-		if i > 0 && i < len(lp) {
+	for i, l := range dl {
+		if i > 0 && i < len(dl) {
 			s.WriteString(";")
 		}
 

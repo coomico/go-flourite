@@ -2,7 +2,7 @@ package flourite
 
 var cpp = []languagePattern{
 	{expression: `(char|long|int|float|double)\s+\w+\s*=?`, patternType: constantType},
-	{expression: `/#include\s*(<|")\w+(\.h)?(>|")/`, patternType: metaImport},
+	{expression: `#include\s*(<|")\w+(\.h)?(>|")`, patternType: metaImport},
 	{expression: `using\s+namespace\s+.+\s*;`, patternType: keyword},
 	{expression: `template\s*<.*>`, patternType: keyword},
 	{expression: `std::\w+`, patternType: keywordOther},
@@ -32,7 +32,7 @@ var cpp = []languagePattern{
 	// avoiding Ruby confusion
 	{expression: `def\s+\w+\s*(\(.+\))?\s*\n`, patternType: not},
 	{expression: `puts\s+("|').+("|')`, patternType: not},
-	{expression: `/\bmodule\s\S/`, patternType: not},
+	{expression: `\bmodule\s\S`, patternType: not},
 
 	// avoiding C# confusion
 	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},

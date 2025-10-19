@@ -17,7 +17,7 @@ var cLang = []languagePattern{
 	// #define macro
 	{expression: `#define\s+.+`, patternType: macro},
 
-	{expression: `/NULL/`, patternType: constantNull},
+	{expression: `NULL`, patternType: constantNull},
 	{expression: `void`, patternType: keywordOther},
 	{expression: `(printf|puts)\s*\(.+\)`, patternType: keywordPrint},
 
@@ -34,8 +34,8 @@ var cLang = []languagePattern{
 	{expression: `var\s+\w+\s*=?`, patternType: not},
 
 	// avoiding Ruby confusion
-	{expression: `/def\s+\w+\s*(\(.+\))?\s*\n/`, patternType: not},
-	{expression: `/puts\s+("|').+("|')/`, patternType: not},
+	{expression: `def\s+\w+\s*(\(.+\))?\s*\n`, patternType: not},
+	{expression: `puts\s+("|').+("|')`, patternType: not},
 
 	// avoiding C# confusion
 	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},
