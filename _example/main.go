@@ -15,11 +15,11 @@ func main() {
  
         List<E> less = new LinkedList<E>();
         List<E> pivotList = new LinkedList<E>();
-        List<E> more = new LinkedList<E>();
+        List<E> more = new LinkedList<E>();F
  
         // Partition
         for (E i: arr) {
-            if (i.compareTo(pivot) < 0)
+            if (i.compareTo(pivot) < 0)f
                 less.add(i);
             else if (i.compareTo(pivot) > 0)
                 more.add(i);
@@ -38,8 +38,7 @@ func main() {
     }
   }`
 
-	detector := flourite.NewDetector()
-	res := detector.Detect(snippet)
+	res := flourite.Detect(snippet)
 	fmt.Println(res)
 	fmt.Println(res.Best())
 }

@@ -7,18 +7,19 @@ import (
 	"strings"
 )
 
-type detector struct {
+type Detector struct {
 	IsUnknown bool
 	Heuristic bool
 }
 
-func NewDetector() detector {
-	return detector{
+func DefaultDetector() Detector {
+	return Detector{
+		IsUnknown: true,
 		Heuristic: true,
 	}
 }
 
-func (d detector) Detect(snippet string) DetectedLanguages {
+func (d Detector) Detect(snippet string) DetectedLanguages {
 	snippet = regexp.MustCompile(`[\r\n]+`).ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
 
@@ -60,6 +61,10 @@ func (d detector) Detect(snippet string) DetectedLanguages {
 	}
 
 	return results
+}
+
+func Detect(s string) DetectedLanguages {
+	return DefaultDetector().Detect(s)
 }
 
 type DetectedLanguages []LangPoint
