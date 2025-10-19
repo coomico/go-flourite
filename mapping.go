@@ -14,6 +14,7 @@ const (
 	Dockerfile
 	Elixir
 	Go
+	HTML
 	JavaScript
 	Python
 	Shell
@@ -37,6 +38,7 @@ var langNames = []string{
 	Dockerfile: "Dockerfile",
 	Elixir:     "Elixir",
 	Go:         "Go",
+	HTML:       "HTML",
 	JavaScript: "JavaScript",
 	Python:     "Python",
 	Shell:      "Shell",
@@ -54,8 +56,6 @@ var interpreterMap = map[string]LangKind{
 
 func getPatterns(lang LangKind) ([]languagePattern, bool) {
 	switch lang {
-	case Go:
-		return goLang, true
 	case C:
 		return cLang, true
 	case Clojure:
@@ -72,6 +72,10 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return dockerfile, true
 	case Elixir:
 		return elixir, true
+	case Go:
+		return goLang, true
+	case HTML:
+		return html, true
 	case JavaScript:
 		return js, true
 	default:

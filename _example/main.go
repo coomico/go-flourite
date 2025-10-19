@@ -7,13 +7,35 @@ import (
 )
 
 func main() {
-	snippet := `defmodule Sort do
-  def qsort([]), do: []
-  def qsort([h | t]) do
-    {lesser, greater} = Enum.split_with(t, &(&1 < h))
-    qsort(lesser) ++ [h] ++ qsort(greater)
-  end
-end`
+	snippet := `<!DOCTYPE html>
+  <html>
+  <head>
+    <title>HTML/CSS Quine</title>
+    <style type="text/css">
+    * { font: 10pt monospace; }
+   
+    head, style { display: block; }
+    style { white-space: pre; }
+   
+    style:before {
+      content:
+        "<""!DOCTYPE html>"
+        "A<html>A"
+        "<head>A"
+        "<title>""HTML/CSS Quine""</title>A"
+        "<style type="text/css">";
+    }
+    style:after {
+      content:
+        "</style>A"
+        "</head>A"
+        "<""body></body>A"
+        "</html>";
+    }
+    </style>
+  </head>
+  <body></body>
+  </html>`
 
 	detector := flourite.NewDetector()
 	res := detector.Detect(snippet)
