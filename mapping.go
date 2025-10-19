@@ -17,6 +17,7 @@ const (
 	HTML
 	Java
 	JavaScript
+	JSON
 	Python
 	Shell
 )
@@ -42,6 +43,7 @@ var langNames = []string{
 	HTML:       "HTML",
 	Java:       "Java",
 	JavaScript: "JavaScript",
+	JSON:       "JSON",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -82,6 +84,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return java, true
 	case JavaScript:
 		return js, true
+	case JSON:
+		return json, true
 	default:
 		return nil, false
 	}
