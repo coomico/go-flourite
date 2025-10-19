@@ -7,35 +7,36 @@ import (
 )
 
 func main() {
-	snippet := `<!DOCTYPE html>
-  <html>
-  <head>
-    <title>HTML/CSS Quine</title>
-    <style type="text/css">
-    * { font: 10pt monospace; }
-   
-    head, style { display: block; }
-    style { white-space: pre; }
-   
-    style:before {
-      content:
-        "<""!DOCTYPE html>"
-        "A<html>A"
-        "<head>A"
-        "<title>""HTML/CSS Quine""</title>A"
-        "<style type="text/css">";
+	snippet := `public static <E extends Comparable<? super E>> List<E> quickSort(List<E> arr) {
+    if (arr.isEmpty())
+        return arr;
+    else {
+        E pivot = arr.get(0);
+ 
+        List<E> less = new LinkedList<E>();
+        List<E> pivotList = new LinkedList<E>();
+        List<E> more = new LinkedList<E>();
+ 
+        // Partition
+        for (E i: arr) {
+            if (i.compareTo(pivot) < 0)
+                less.add(i);
+            else if (i.compareTo(pivot) > 0)
+                more.add(i);
+            else
+                pivotList.add(i);
+        }
+ 
+        // Recursively sort sublists
+        less = quickSort(less);
+        more = quickSort(more);
+ 
+        // Concatenate results
+        less.addAll(pivotList);
+        less.addAll(more);
+        return less;
     }
-    style:after {
-      content:
-        "</style>A"
-        "</head>A"
-        "<""body></body>A"
-        "</html>";
-    }
-    </style>
-  </head>
-  <body></body>
-  </html>`
+  }`
 
 	detector := flourite.NewDetector()
 	res := detector.Detect(snippet)

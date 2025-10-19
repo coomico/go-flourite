@@ -15,6 +15,7 @@ const (
 	Elixir
 	Go
 	HTML
+	Java
 	JavaScript
 	Python
 	Shell
@@ -39,6 +40,7 @@ var langNames = []string{
 	Elixir:     "Elixir",
 	Go:         "Go",
 	HTML:       "HTML",
+	Java:       "Java",
 	JavaScript: "JavaScript",
 	Python:     "Python",
 	Shell:      "Shell",
@@ -76,6 +78,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return goLang, true
 	case HTML:
 		return html, true
+	case Java:
+		return java, true
 	case JavaScript:
 		return js, true
 	default:
