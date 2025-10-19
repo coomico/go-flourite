@@ -7,17 +7,13 @@ import (
 )
 
 func main() {
-	snippet := `FROM node:16.6-buster
-
-WORKDIR /app
-
-COPY . .
-
-RUN npm install --production
-
-EXPOSE 8080
-
-CMD ["npm", "start"]`
+	snippet := `defmodule Sort do
+  def qsort([]), do: []
+  def qsort([h | t]) do
+    {lesser, greater} = Enum.split_with(t, &(&1 < h))
+    qsort(lesser) ++ [h] ++ qsort(greater)
+  end
+end`
 
 	detector := flourite.NewDetector()
 	res := detector.Detect(snippet)

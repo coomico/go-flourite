@@ -12,6 +12,7 @@ const (
 	CSS
 	Dart
 	Dockerfile
+	Elixir
 	Go
 	JavaScript
 	Python
@@ -34,6 +35,7 @@ var langNames = []string{
 	CSS:        "CSS",
 	Dart:       "Dart",
 	Dockerfile: "Dockerfile",
+	Elixir:     "Elixir",
 	Go:         "Go",
 	JavaScript: "JavaScript",
 	Python:     "Python",
@@ -68,6 +70,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return dart, true
 	case Dockerfile:
 		return dockerfile, true
+	case Elixir:
+		return elixir, true
 	case JavaScript:
 		return js, true
 	default:
