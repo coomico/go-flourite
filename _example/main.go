@@ -7,10 +7,17 @@ import (
 )
 
 func main() {
-	snippet := `Future<void> main() async {
-  checkVersion();
-  print('In main: version is \${await lookUpVersion()}');
-}`
+	snippet := `FROM node:16.6-buster
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install --production
+
+EXPOSE 8080
+
+CMD ["npm", "start"]`
 
 	detector := flourite.NewDetector()
 	res := detector.Detect(snippet)
