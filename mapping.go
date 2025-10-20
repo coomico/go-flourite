@@ -21,6 +21,7 @@ const (
 	Julia
 	Kotlin
 	Lua
+	Markdown
 	Python
 	Shell
 )
@@ -50,6 +51,7 @@ var langNames = []string{
 	Julia:      "Julia",
 	Kotlin:     "Kotlin",
 	Lua:        "Lua",
+	Markdown:   "Markdown",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -98,6 +100,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return kotlin, true
 	case Lua:
 		return lua, true
+	case Markdown:
+		return markdown, true
 	default:
 		return nil, false
 	}
