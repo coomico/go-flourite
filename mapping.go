@@ -29,6 +29,7 @@ const (
 	Rust
 	Shell
 	SQL
+	Typescript
 )
 
 func (l LangKind) String() string {
@@ -64,6 +65,7 @@ var langNames = []string{
 	Rust:       "Rust",
 	Shell:      "Shell",
 	SQL:        "SQL",
+	Typescript: "Typescript",
 }
 
 var interpreterMap = map[string]LangKind{
@@ -124,6 +126,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return rust, true
 	case SQL:
 		return sql, true
+	case Typescript:
+		return typescript, true
 	default:
 		return nil, false
 	}
