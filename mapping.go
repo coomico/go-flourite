@@ -30,6 +30,7 @@ const (
 	Shell
 	SQL
 	Typescript
+	YAML
 )
 
 func (l LangKind) String() string {
@@ -66,6 +67,7 @@ var langNames = []string{
 	Shell:      "Shell",
 	SQL:        "SQL",
 	Typescript: "Typescript",
+	YAML:       "YAML",
 }
 
 var interpreterMap = map[string]LangKind{
@@ -128,6 +130,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return sql, true
 	case Typescript:
 		return typescript, true
+	case YAML:
+		return yaml, true
 	default:
 		return nil, false
 	}

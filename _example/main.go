@@ -7,15 +7,39 @@ import (
 )
 
 func main() {
-	snippet := `const length: number = 100
-
-   const numberArrays: number[] = Array.from({length: length}, (_, i: number) => i)
-
-    numberArrays.forEach((item: number): void => {
-        if (item % 15 === 0) console.log('FizzBuzz' as string)
-        else if(item % 3 === 0) console.log('Fizz' as string)
-        else if (item % 5 === 0) console.log('Buzz' as string)
-    })`
+	snippet := `root: true
+  parser: '@typescript-eslint/parser'
+  plugins:
+    - '@typescript-eslint'
+  extends:
+    - eslint:recommended
+    #  - plugin:react/recommended
+    - plugin:@typescript-eslint/recommended
+    - prettier
+    - prettier/@typescript-eslint
+  env:
+    node: true
+    browser: true
+    es6: true
+    jest: true
+  rules:
+    '@typescript-eslint/explicit-function-return-type': off
+    '@typescript-eslint/explicit-member-accessibility': off
+    '@typescript-eslint/indent': off
+    '@typescript-eslint/member-delimiter-style': off
+    '@typescript-eslint/no-explicit-any': off
+    '@typescript-eslint/no-empty-function': off
+    '@typescript-eslint/no-non-null-assertion': off
+    '@typescript-eslint/no-var-requires': off
+    '@typescript-eslint/explicit-module-boundary-types': off
+    '@typescript-eslint/ban-ts-comment': off
+    '@typescript-eslint/ban-types':
+      - 2
+      - types:
+          Function: false
+    '@typescript-eslint/no-unused-vars':
+      - 2
+      - argsIgnorePattern: '^_'`
 
 	res := flourite.Detect(snippet)
 	fmt.Println(res)
