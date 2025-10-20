@@ -28,6 +28,7 @@ const (
 	Ruby
 	Rust
 	Shell
+	SQL
 )
 
 func (l LangKind) String() string {
@@ -62,6 +63,7 @@ var langNames = []string{
 	Ruby:       "Ruby",
 	Rust:       "Rust",
 	Shell:      "Shell",
+	SQL:        "SQL",
 }
 
 var interpreterMap = map[string]LangKind{
@@ -120,6 +122,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return ruby, true
 	case Rust:
 		return rust, true
+	case SQL:
+		return sql, true
 	default:
 		return nil, false
 	}
