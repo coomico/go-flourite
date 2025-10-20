@@ -5,7 +5,7 @@ var markdown = []languagePattern{
 	{expression: `^(#){2,6}\s.+`, patternType: keyword},
 
 	// heading alternative syntax
-	// [!] the original one doesn't compatible with Golang regex std library
+	// [!] the original one isn't compatible with Golang regexp std library
 	{expression: `^[=-]{2,}>?[^>]|^[=-]{2,}$`, patternType: metaModule},
 
 	// images
