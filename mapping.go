@@ -26,6 +26,7 @@ const (
 	PHP
 	Python
 	Ruby
+	Rust
 	Shell
 )
 
@@ -59,6 +60,7 @@ var langNames = []string{
 	PHP:        "PHP",
 	Python:     "Python",
 	Ruby:       "Ruby",
+	Rust:       "Rust",
 	Shell:      "Shell",
 }
 
@@ -116,6 +118,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return python, true
 	case Ruby:
 		return ruby, true
+	case Rust:
+		return rust, true
 	default:
 		return nil, false
 	}

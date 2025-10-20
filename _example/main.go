@@ -7,41 +7,34 @@ import (
 )
 
 func main() {
-	snippet := `def floyd_warshall(n, edge)
-    dist = Array.new(n){|i| Array.new(n){|j| i==j ? 0 : Float::INFINITY}}
-    nxt = Array.new(n){Array.new(n)}
-    edge.each do |u,v,w|
-      dist[u-1][v-1] = w
-      nxt[u-1][v-1] = v-1
-    end
-  
-    n.times do |k|
-      n.times do |i|
-        n.times do |j|
-          if dist[i][j] > dist[i][k] + dist[k][j]
-            dist[i][j] = dist[i][k] + dist[k][j]
-            nxt[i][j] = nxt[i][k]
-          end
-        end
-      end
-    end
-  
-    puts "pair     dist    path"
-    n.times do |i|
-      n.times do |j|
-        next  if i==j
-        u = i
-        path = [u]
-        path << (u = nxt[u][j])  while u != j
-        path = path.map{|u| u+1}.join(" -> ")
-        puts "%d -> %d  %4d     %s" % [i+1, j+1, dist[i][j], path]
-      end
-    end
-  end
-  
-  n = 4
-  edge = [[1, 3, -2], [2, 1, 4], [2, 3, 3], [3, 4, 2], [4, 2, -1]]
-  floyd_warshall(n, edge)`
+	snippet := `use std::fs::File;
+  use std::io::{self, Read,  Write};
+  use std::path::Path;
+  use std::{env, fmt, process};
+   
+  fn main() {
+      let files: Vec<_> = env::args_os().skip(1).take(2).collect();
+   
+      if files.len() != 2 {
+          exit_err("Both an input file and output file are required", 1);
+      }
+   
+      copy(&files[0], &files[1]).unwrap_or_else(|e| exit_err(&e, e.raw_os_error().unwrap_or(-1)));
+  }
+   
+  fn copy<P: AsRef<Path>>(infile: P, outfile: P) -> io::Result<()> {
+      let mut vec = Vec::new();
+   
+      Ok(try!(File::open(infile)
+           .and_then(|mut i| i.read_to_end(&mut vec))
+           .and_then(|_| File::create(outfile))
+           .and_then(|mut o| o.write_all(&vec))))
+  }
+   
+  fn exit_err<T: fmt::Display>(msg: T, code: i32) -> ! {
+      writeln!(&mut io::stderr(), "ERROR: {}", msg).expect("Could not write to stdout");
+      process::exit(code);
+  }`
 
 	res := flourite.Detect(snippet)
 	fmt.Println(res)
