@@ -25,6 +25,7 @@ const (
 	Pascal
 	PHP
 	Python
+	Ruby
 	Shell
 )
 
@@ -57,6 +58,7 @@ var langNames = []string{
 	Pascal:     "Pascal",
 	PHP:        "PHP",
 	Python:     "Python",
+	Ruby:       "Ruby",
 	Shell:      "Shell",
 }
 
@@ -112,6 +114,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return php, true
 	case Python:
 		return python, true
+	case Ruby:
+		return ruby, true
 	default:
 		return nil, false
 	}

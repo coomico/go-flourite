@@ -7,34 +7,41 @@ import (
 )
 
 func main() {
-	snippet := `from __future__ import division
-	import math
-	import sys
-	 
-	def fivenum(array):
-			n = len(array)
-			if n == 0:
-					print("you entered an empty array.")
-					sys.exit()
-			x = sorted(array)
-	 
-			n4 = math.floor((n+3.0)/2.0)/2.0
-			d = [1, n4, (n+1)/2, n+1-n4, n]
-			sum_array = []
-	 
-			for e in range(5):
-					floor = int(math.floor(d[e] - 1))
-					ceil = int(math.ceil(d[e] - 1))
-					sum_array.append(0.5 * (x[floor] + x[ceil]))
-	 
-			return sum_array
-	 
-	x = [0.14082834, 0.09748790, 1.73131507, 0.87636009, -1.95059594, 0.73438555, -0.03035726, 1.46675970,
-	-0.74621349, -0.72588772, 0.63905160, 0.61501527, -0.98983780, -1.00447874, -0.62759469, 0.66206163,
-	1.04312009, -0.10305385, 0.75775634, 0.32566578]
-	 
-	y = fivenum(x)
-	print(y)`
+	snippet := `def floyd_warshall(n, edge)
+    dist = Array.new(n){|i| Array.new(n){|j| i==j ? 0 : Float::INFINITY}}
+    nxt = Array.new(n){Array.new(n)}
+    edge.each do |u,v,w|
+      dist[u-1][v-1] = w
+      nxt[u-1][v-1] = v-1
+    end
+  
+    n.times do |k|
+      n.times do |i|
+        n.times do |j|
+          if dist[i][j] > dist[i][k] + dist[k][j]
+            dist[i][j] = dist[i][k] + dist[k][j]
+            nxt[i][j] = nxt[i][k]
+          end
+        end
+      end
+    end
+  
+    puts "pair     dist    path"
+    n.times do |i|
+      n.times do |j|
+        next  if i==j
+        u = i
+        path = [u]
+        path << (u = nxt[u][j])  while u != j
+        path = path.map{|u| u+1}.join(" -> ")
+        puts "%d -> %d  %4d     %s" % [i+1, j+1, dist[i][j], path]
+      end
+    end
+  end
+  
+  n = 4
+  edge = [[1, 3, -2], [2, 1, 4], [2, 3, 3], [3, 4, 2], [4, 2, -1]]
+  floyd_warshall(n, edge)`
 
 	res := flourite.Detect(snippet)
 	fmt.Println(res)

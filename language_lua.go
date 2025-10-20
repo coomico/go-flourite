@@ -73,6 +73,6 @@ var lua = []languagePattern{
 	{expression: `(puts)`, patternType: not},
 	{expression: `\bmodule\s\S`, patternType: not},
 
-	// avoiding Julia confention
+	// avoiding Julia confusion
 	{expression: `(([a-zA-Z0-9]+)::([a-zA-Z0-9]+)|using|(.*)!\(.*\)|(\|\|))`, patternType: not},
 }
