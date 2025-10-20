@@ -22,6 +22,7 @@ const (
 	Kotlin
 	Lua
 	Markdown
+	Pascal
 	Python
 	Shell
 )
@@ -52,6 +53,7 @@ var langNames = []string{
 	Kotlin:     "Kotlin",
 	Lua:        "Lua",
 	Markdown:   "Markdown",
+	Pascal:     "Pascal",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -102,6 +104,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return lua, true
 	case Markdown:
 		return markdown, true
+	case Pascal:
+		return pascal, true
 	default:
 		return nil, false
 	}
