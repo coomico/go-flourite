@@ -110,6 +110,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return pascal, true
 	case PHP:
 		return php, true
+	case Python:
+		return python, true
 	default:
 		return nil, false
 	}
