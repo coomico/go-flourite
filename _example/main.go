@@ -7,25 +7,29 @@ import (
 )
 
 func main() {
-	snippet := `Program GuessTheNumber(input, output);
- 
-  var
-    number, guess: integer;
+	snippet := `<?php
+  $graph = array();
+  for ($i = 0; $i < 10; ++$i) {
+      $graph[] = array();
+      for ($j = 0; $j < 10; ++$j)
+          $graph[$i][] = $i == $j ? 0 : 9999999;
+  }
    
-  begin
-    randomize;
-    number := random(10) + 1;
-    writeln ('I''m thinking of a number between 1 and 10, which you should guess.');
-    write   ('Enter your guess: ');
-    readln  (guess);
-    while guess <> number do
-    begin
-      writeln ('Sorry, but your guess is wrong. Please try again.');
-      write   ('Enter your new guess: ');
-      readln  (guess);
-    end;
-    writeln ('You made an excellent guess. Thank you and have a nice day.');
-  end.`
+  for ($i = 1; $i < 10; ++$i) {
+      $graph[0][$i] = $graph[$i][0] = rand(1, 9);
+  }
+   
+  for ($k = 0; $k < 10; ++$k) {
+      for ($i = 0; $i < 10; ++$i) {
+          for ($j = 0; $j < 10; ++$j) {
+              if ($graph[$i][$j] > $graph[$i][$k] + $graph[$k][$j])
+                  $graph[$i][$j] = $graph[$i][$k] + $graph[$k][$j];
+          }
+      }
+  }
+   
+  print_r($graph);
+  ?>`
 
 	res := flourite.Detect(snippet)
 	fmt.Println(res)

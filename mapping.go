@@ -23,6 +23,7 @@ const (
 	Lua
 	Markdown
 	Pascal
+	PHP
 	Python
 	Shell
 )
@@ -54,6 +55,7 @@ var langNames = []string{
 	Lua:        "Lua",
 	Markdown:   "Markdown",
 	Pascal:     "Pascal",
+	PHP:        "PHP",
 	Python:     "Python",
 	Shell:      "Shell",
 }
@@ -106,6 +108,8 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return markdown, true
 	case Pascal:
 		return pascal, true
+	case PHP:
+		return php, true
 	default:
 		return nil, false
 	}
