@@ -29,7 +29,7 @@ const (
 	Rust
 	Shell
 	SQL
-	Typescript
+	TypeScript
 	YAML
 )
 
@@ -66,18 +66,20 @@ var langNames = []string{
 	Rust:       "Rust",
 	Shell:      "Shell",
 	SQL:        "SQL",
-	Typescript: "Typescript",
+	TypeScript: "TypeScript",
 	YAML:       "YAML",
 }
 
 var interpreterMap = map[string]LangKind{
 	"node":   JavaScript,
 	"jsc":    JavaScript,
+	"rhino":  JavaScript,
 	"python": Python,
 	"bash":   Shell,
 	"ash":    Shell,
 	"zsh":    Shell,
 	"sh":     Shell,
+	"deno":   TypeScript,
 }
 
 func getPatterns(lang LangKind) ([]languagePattern, bool) {
@@ -105,7 +107,7 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 	case Java:
 		return java, true
 	case JavaScript:
-		return js, true
+		return javascript, true
 	case JSON:
 		return json, true
 	case Julia:
@@ -128,7 +130,7 @@ func getPatterns(lang LangKind) ([]languagePattern, bool) {
 		return rust, true
 	case SQL:
 		return sql, true
-	case Typescript:
+	case TypeScript:
 		return typescript, true
 	case YAML:
 		return yaml, true

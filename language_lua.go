@@ -57,7 +57,7 @@ var lua = []languagePattern{
 	// avoiding C confusion
 	{expression: `(#(include|define)|printf|\s+int\s+)`, patternType: not},
 
-	// avoiding Javascript confusion
+	// avoiding JavaScript confusion
 	{expression: `\s+(let|const|var)\s+`, patternType: not},
 
 	// avoiding PHP/Python confusion

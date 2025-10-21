@@ -1,16 +1,16 @@
 package flourite
 
 var sql = []languagePattern{
-	{expression: `(?i)CREATE (TABLE|DATABASE)`, patternType: keyword, nearTop: true},
-	{expression: `(?i)DROP (TABLE|DATABASE)`, patternType: keyword, nearTop: true},
-	{expression: `(?i)SHOW DATABASES`, patternType: keyword, nearTop: true},
-	{expression: `(?i)INSERT INTO`, patternType: keyword},
-	{expression: `(?i)(SELECT|SELECT DISTINCT)\s`, patternType: keyword},
-	{expression: `(?i)INNER JOIN`, patternType: keyword},
-	{expression: `(?i)(GROUP|ORDER) BY`, patternType: keyword},
-	{expression: `(?i)(END;|COMMIT;)`, patternType: keyword},
-	{expression: `(?i)UPDATE\s+\w+\sSET`, patternType: keyword},
-	{expression: `(?i)VALUES+(\s+\(\w|\(\w)`, patternType: keyword},
+	{expression: `(?i)CREATE (TABLE|DATABASE)`, patternType: keywordFunction, nearTop: true},
+	{expression: `(?i)DROP (TABLE|DATABASE)`, patternType: keywordFunction, nearTop: true},
+	{expression: `(?i)SHOW DATABASES`, patternType: keywordFunction, nearTop: true},
+	{expression: `(?i)INSERT INTO`, patternType: keywordFunction},
+	{expression: `(?i)(SELECT|SELECT DISTINCT)\s`, patternType: keywordFunction},
+	{expression: `(?i)INNER JOIN`, patternType: keywordFunction},
+	{expression: `(?i)(GROUP|ORDER) BY`, patternType: keywordFunction},
+	{expression: `(?i)(END;|COMMIT;)`, patternType: keywordFunction},
+	{expression: `(?i)UPDATE\s+\w+\sSET`, patternType: keywordFunction},
+	{expression: `(?i)VALUES+(\s+\(\w|\(\w)`, patternType: keywordFunction},
 	{expression: `--\s\w`, patternType: commentLine},
 
 	// data types

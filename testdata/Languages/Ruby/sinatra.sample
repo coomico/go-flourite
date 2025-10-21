@@ -1,0 +1,143 @@
+# external dependencies
+require 'rack'
+require 'tilt'
+require "rack/protection"
+
+# stdlib dependencies
+require 'thread'
+require 'time'
+require 'uri'
+
+# other files we need
+require 'sinatra/showexceptions'
+require 'sinatra/version'
+
+module Sinatra
+  # The request object. See Rack::Request for more info:
+  # http://rack.rubyforge.org/doc/classes/Rack/Request.html
+  class Request < Rack::Request
+    # Returns an array of acceptable media types for the response
+    def accept
+      @env['sinatra.accept'] ||= begin
+        entries = @env['HTTP_ACCEPT'].to_s.split(',')
+        entries.map { |e| accept_entry(e) }.sort_by(&:last).map(&:first)
+      end
+    end
+
+    def preferred_type(*types)
+      return accept.first if types.empty?
+      types.flatten!
+      accept.detect do |pattern|
+        type = types.detect { |t| File.fnmatch(pattern, t) }
+        return type if type
+      end
+    end
+
+    alias accept? preferred_type
+    alias secure? ssl?
+
+    def forwarded?
+      @env.include? "HTTP_X_FORWARDED_HOST"
+    end
+
+    def safe?
+      get? or head? or options? or trace?
+    end
+
+    def idempotent?
+      safe? or put? or delete?
+    end
+
+    private
+
+    def accept_entry(entry)
+      type, *options = entry.delete(' ').split(';')
+      quality = 0 # we sort smallest first
+      options.delete_if { |e| quality = 1 - e[2..-1].to_f if e.start_with? 'q=' }
+      [type, [quality, type.count('*'), 1 - options.size]]
+    end
+  end
+
+  # The response object. See Rack::Response and Rack::ResponseHelpers for
+  # more info:
+  # http://rack.rubyforge.org/doc/classes/Rack/Response.html
+  # http://rack.rubyforge.org/doc/classes/Rack/Response/Helpers.html
+  class Response < Rack::Response
+    def body=(value)
+      value = value.body while Rack::Response === value
+      @body = String === value ? [value.to_str] : value
+    end
+
+    def each
+      block_given? ? super : enum_for(:each)
+    end
+
+    def finish
+      if status.to_i / 100 == 1
+        headers.delete "Content-Length"
+        headers.delete "Content-Type"
+      elsif Array === body and not [204, 304].include?(status.to_i)
+        # if some other code has already set Content-Length, don't muck with it
+        # currently, this would be the static file-handler
+        headers["Content-Length"] ||= body.inject(0) { |l, p| l + Rack::Utils.bytesize(p) }.to_s
+      end
+
+      # Rack::Response#finish sometimes returns self as response body. We don't want that.
+      status, headers, result = super
+      result = body if result == self
+      [status, headers, result]
+    end
+  end
+
+  # Some Rack handlers (Thin, Rainbows!) implement an extended body object protocol, however,
+  # some middleware (namely Rack::Lint) will break it by not mirroring the methods in question.
+  # This middleware will detect an extended body object and will make sure it reaches the
+  # handler directly. We do this here, so our middleware and middleware set up by the app will
+  # still be able to run.
+  class ExtendedRack < Struct.new(:app)
+    def call(env)
+      result, callback = app.call(env), env['async.callback']
+      return result unless callback and async?(*result)
+      after_response { callback.call result }
+      setup_close(env, *result)
+      throw :async
+    end
+
+    private
+
+    def setup_close(env, status, header, body)
+      return unless body.respond_to? :close and env.include? 'async.close'
+      env['async.close'].callback { body.close }
+      env['async.close'].errback { body.close }
+    end
+
+    def after_response(&block)
+      raise NotImplementedError, "only supports EventMachine at the moment" unless defined? EventMachine
+      EventMachine.next_tick(&block)
+    end
+
+    def async?(status, headers, body)
+      return true if status == -1
+      body.respond_to? :callback and body.respond_to? :errback
+    end
+  end
+
+  # Behaves exactly like Rack::CommonLogger with the notable exception that it does nothing,
+  # if another CommonLogger is already in the middleware chane.
+  class CommonLogger < Rack::CommonLogger
+    def call(env)
+      env['sinatra.commonlogger'] ? @app.call(env) : super
+    end
+
+    superclass.class_eval do
+      alias call_without_check call unless method_defined? :call_without_check
+      def call(env)
+        env['sinatra.commonlogger'] = true
+        call_without_check(env)
+      end
+    end
+  end
+
+  class NotFound < NameError #:nodoc:
+    def http_status; 404 end
+  end

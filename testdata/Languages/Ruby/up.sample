@@ -1,0 +1,23 @@
+events = Hash.new { |h, k| h[k] = [] }
+DATA.read.split(/\n\n\n\s*/).each do |event|
+	name = event[/^.*/].sub(/http:.*/, '')
+	event[/\n.*/m].scan(/^([A-Z]{2}\S*)\s*(\S*)\s*(\S*)(\s*\S*)/) do |kind, day, daytime, comment|
+		events[ [day, daytime] ] << [kind, name + comment]
+	end
+end
+
+conflicts = 0
+events.to_a.sort_by do |(day, daytime),|
+	[%w(Mo Di Mi Do Fr).index(day) || 0, daytime]
+end.each do |(day, daytime), names|
+	if names.size > 1
+		conflicts += 1
+		print '!!! '
+	end
+	print "#{day} #{daytime}: "
+	names.each { |kind, name| puts "  #{kind}  #{name}" }
+	puts
+end
+
+puts '%d conflicts' % conflicts
+puts '%d SWS' % (events.inject(0) { |sum, ((day, daytime),)| sum + (daytime[/\d+$/].to_i - daytime[/^\d+/].to_i) })

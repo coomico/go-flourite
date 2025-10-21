@@ -28,7 +28,7 @@ var php = []languagePattern{
 	// C/JS style variable declaration
 	{expression: `(^|\s)(var|char|long|int|float|double)\s+\w+\s*=?`, patternType: not},
 
-	// Javascript variable declaration
+	// JavaScript variable declaration
 	{expression: `(var|const|let)\s+\w+\s*=?`, patternType: not},
 
 	// avoiding Lua confusion

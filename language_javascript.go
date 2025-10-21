@@ -1,6 +1,6 @@
 package flourite
 
-var js = []languagePattern{
+var javascript = []languagePattern{
 	{expression: `undefined`, patternType: keyword},
 	{expression: `window\.`, patternType: keyword},
 	{expression: `console\.log\s*\(`, patternType: keywordPrint},

@@ -1,0 +1,29 @@
+enum VARIANT {
+    'big'= 'BIG TITLE',
+    'small'= 'SMALL TITLE'
+}
+
+type Variants = 'big' | 'small'
+interface Props {
+    title?: string,
+    isView: string,
+    variant: Variants
+}
+
+interface Emits {
+    (e: 'click', item: string): void
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits<Emits>()
+
+const newTitle = ref<string>('')
+
+const changeTitle = (): void => {
+    if (props.variant === 'big') {
+        newTitle.value = VARIANT.big
+    } else if (props.variant === 'small') {
+        newTitle.value = VARIANT.small
+    }
+}

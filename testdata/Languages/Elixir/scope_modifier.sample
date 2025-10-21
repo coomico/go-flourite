@@ -1,0 +1,15 @@
+import Kernel, except: [spawn: 1, +: 2, /: 2, Unless: 2]
+alias Long.Module.Name, as: N0men123_and4
+use Bitwise
+
+4 &&& 5
+2 <<< 3
+
+# Protocols
+defprotocol Useless do
+  def func1(this)
+  def func2(that)
+end
+
+defimpl Useless, for: Atom do
+end
