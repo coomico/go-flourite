@@ -55,7 +55,7 @@ func getPoints(line string, patterns []languagePattern, isNearTop bool) int {
 		}
 
 		re := regexp.MustCompile(languagePattern.expression)
-		if valid := re.Match([]byte(line)); valid {
+		if valid := re.MatchString(line); valid {
 			points += parsePoint(languagePattern.patternType)
 		}
 	}
