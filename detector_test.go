@@ -37,7 +37,7 @@ func TestDetector(t *testing.T) {
 						detected := detector.Detect(string(sample))
 						got := detected.Best().Language.String()
 						if got != langName {
-							t.Errorf("Language detected got %s, want %s", got, langName)
+							t.Errorf("detection error: got %s, want %s", got, langName)
 							t.Error(detected)
 						}
 					},
