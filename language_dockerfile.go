@@ -25,7 +25,7 @@ var dockerKeywords = []string{
 	"WORKDIR",
 }
 
-var dockerExpression = "^(" + strings.Join(dockerKeywords, "|") + ")"
+var dockerExpression = "(?i)^(" + strings.Join(dockerKeywords, "|") + ")"
 
 var dockerfile = []languagePattern{
 	{expression: dockerExpression, patternType: keyword},
