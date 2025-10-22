@@ -10,8 +10,8 @@ var sql = []languagePattern{
 	{expression: `(?i)(GROUP|ORDER) BY`, patternType: keywordFunction},
 	{expression: `(?i)(END;|COMMIT;)`, patternType: keywordFunction},
 	{expression: `(?i)UPDATE\s+\w+\sSET`, patternType: keywordFunction},
-	{expression: `(?i)VALUES+(\s+\(\w|\(\w)`, patternType: keywordFunction},
-	{expression: `--\s\w`, patternType: commentLine},
+	{expression: `(?i)VALUES\s*\(\s*(?:\w+|'[^']*'|"[^"]*"|NULL)`, patternType: keywordFunction},
+	{expression: `--\s*\w*`, patternType: commentLine},
 
 	// data types
 	{

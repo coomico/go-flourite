@@ -11,7 +11,8 @@ var python = []languagePattern{
 	{expression: `for (\w+|\(?\w+,\s*\w+\)?) in (.+):`, patternType: keywordControl},
 
 	// python variable declaration
-	{expression: `\w+\s*=\s*\w+(\s*)(\n|$)`, patternType: keyword},
+	// [!] the original one isn't compatible with Golang regexp std library
+	{expression: `\w+\s*=\s*[^:;\n=]+\s*?(\n|$)`, patternType: keyword},
 
 	{expression: `import ([[^.]\w])+`, patternType: metaImport, nearTop: true},
 	{expression: `print((\s*\(.+\))|\s+.+)`, patternType: keywordPrint},
@@ -24,7 +25,7 @@ var python = []languagePattern{
 	{expression: `local\s(function|\w+)?\s=\s`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{expression: `fun main\((.*)?\) {`, patternType: not},
-	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`, patternType: not},
+	{expression: `fun main\((.*)?\) \{`, patternType: not},
+	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)(\{|=)`, patternType: not},
 	{expression: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, patternType: not},
 }

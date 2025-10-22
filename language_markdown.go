@@ -2,14 +2,14 @@ package flourite
 
 var markdown = []languagePattern{
 	// heading
-	{expression: `^(#){2,6}\s.+`, patternType: keyword},
+	{expression: `^#{2,6}\s.+`, patternType: keyword},
 
 	// heading alternative syntax
 	// [!] the original one isn't compatible with Golang regexp std library
-	{expression: `^[=-]{2,}>?[^>]|^[=-]{2,}$`, patternType: metaModule},
+	{expression: `^(?:=|-){2,}(?:>.+|$)`, patternType: metaModule},
 
 	// images
-	{expression: `(!)?\[.+\]\(.+\)`, patternType: keyword},
+	{expression: `!?\[.+\]\(.+\)`, patternType: keyword},
 
 	// links
 	{expression: `\[.+\]\[.+\]`, patternType: keyword},

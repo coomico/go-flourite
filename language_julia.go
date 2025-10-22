@@ -29,7 +29,7 @@ var julia = []languagePattern{
 
 	// avoiding Rust confusion
 	{expression: `\{:\?\}`, patternType: not},
-	{expression: `fn\smain()`, patternType: not},
+	{expression: `fn\smain\(\)`, patternType: not},
 
 	// avoiding Ruby confusion
 	{expression: `def\s+\w+\s*(\(.+\))?\s*\n`, patternType: not},
@@ -41,6 +41,6 @@ var julia = []languagePattern{
 	{expression: `\bmodule\(.*\)`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{expression: `fun main\((.*)?\) {`, patternType: not},
-	{expression: `fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+){`, patternType: not},
+	{expression: `fun main\((.*)?\) \{`, patternType: not},
+	{expression: `fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)\{`, patternType: not},
 }

@@ -11,10 +11,10 @@ var javascript = []languagePattern{
 
 	{expression: `===`, patternType: keywordOperator},
 	{expression: `!==`, patternType: keywordOperator},
-	{expression: `function\*?\s*([A-Za-z$_][\w$]*)?\s*[(][^:;()]*[)]\s*{`, patternType: keywordFunction},
+	{expression: `function\*?\s*([A-Za-z$_][\w$]*)?\s*\([^:;()]*\)\s*\{`, patternType: keywordFunction},
 
 	// arrow function
-	{expression: `\(* => {`, patternType: keywordFunction},
+	{expression: `\(*\s*=>\s*\{`, patternType: keywordFunction},
 
 	{expression: `null`, patternType: constantNull},
 
@@ -44,10 +44,10 @@ var javascript = []languagePattern{
 	{expression: `local\s(function|(\w+)\s=)`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{expression: `fun main\((.*)?\) {`, patternType: not},
-	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`, patternType: not},
+	{expression: `fun main\((.*)?\) \{`, patternType: not},
+	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)(\{|=)`, patternType: not},
 	{expression: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, patternType: not},
 
 	// avoiding Dart confusion
-	{expression: `^(void\s)?main()\s{`, patternType: not},
+	{expression: `^(void\s)?main\(\)\s\{`, patternType: not},
 }

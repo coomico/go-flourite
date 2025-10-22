@@ -13,5 +13,5 @@ var elixir = []languagePattern{
 	{expression: `^\s*defstruct\s+`, patternType: keyword},
 	{expression: `^\s*@spec\s+.+::.+`, patternType: macro},
 	{expression: `\{:.+,.+\}`, patternType: constantArray},
-	{expression: `%\{(.+(=>|:).+(,)?){1,}\}`, patternType: constantDictionary},
+	{expression: `%\{(.+(=>|:).+(,)?)+\}`, patternType: constantDictionary},
 }

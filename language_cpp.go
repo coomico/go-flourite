@@ -41,13 +41,13 @@ var cpp = []languagePattern{
 	{expression: `(public|private|protected|internal)\s`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{expression: `fun main\((.*)?\) {`, patternType: not},
+	{expression: `fun main\((.*)?\) \{`, patternType: not},
 	{
-		expression:  `(inline|private|public|protected|override|operator(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`,
+		expression:  `(inline|private|public|protected|override|operator(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)(\{|=)`,
 		patternType: not,
 	},
 	{expression: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, patternType: not},
 
 	// avoiding Dart confusion
-	{expression: `^(void\s)?main\(\)\s(async\s)?{`, patternType: not},
+	{expression: `^(void\s)?main\(\)\s(async\s)?\{`, patternType: not},
 }

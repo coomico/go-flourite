@@ -5,13 +5,13 @@ var goLang = []languagePattern{
 	{expression: `(import\s*\(\s*\n)|(import\s+"[a-z0-9/.]+")`, patternType: metaImport, nearTop: true},
 
 	// error handling
-	{expression: `if.+err\s*!=\s*nil.+{`, patternType: keywordFunction},
+	{expression: `if.+err\s*!=\s*nil.+\{`, patternType: keywordFunction},
 
 	{expression: `fmt\.Print(f|ln)?\(.*\)`, patternType: keywordPrint},
-	{expression: `func(\s+\w+\s*)?\(.*\).*{`, patternType: keywordFunction},
+	{expression: `func(\s+\w+\s*)?\(.*\).*\{`, patternType: keywordFunction},
 	{expression: `\w+\s*:=\s*.+[^;\n]`, patternType: keywordVariable},
 	{expression: `(var|const)\s+\w+\s+[\w*]+(\n|\s*=|$)`, patternType: keywordVariable},
-	{expression: `(}\s*else\s*)?if[^()]+{`, patternType: keywordControl},
+	{expression: `(}\s*else\s*)?if[^()]+\{`, patternType: keywordControl},
 	{expression: `nil`, patternType: keyword},
 
 	// public access identifier

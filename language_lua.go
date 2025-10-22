@@ -27,11 +27,11 @@ var lua = []languagePattern{
 	{expression: `(\(.+\)|([a-zA-Z_]+)):([a-zA-Z_])\(.*\)`, patternType: keywordOther},
 
 	// array-like table
-	{expression: `{\s*[^\s;,]+([;,]\s*[^\s;,]+)*,?\s*}`, patternType: constantArray},
+	{expression: `\{\s*[^\s;,]+([;,]\s*[^\s;,]+)*,?\s*\}`, patternType: constantArray},
 
 	// map-like table
 	{
-		expression:  `{\s*([^\s;,=]+\s*=\s*[^\s;,=]+)(\s*[;,=]\s*[^\s;,=]+\s*=\s*[^\s;,=]+)*\s*,?\s*}`,
+		expression:  `\{\s*([^\s;,=]+\s*=\s*[^\s;,=]+)(\s*[;,=]\s*[^\s;,=]+\s*=\s*[^\s;,=]+)*\s*,?\s*\}`,
 		patternType: constantDictionary,
 	},
 
@@ -52,7 +52,7 @@ var lua = []languagePattern{
 	{expression: `\bmodule\s*\(.*\)`, patternType: keywordOther},
 
 	// invalid comments
-	{expression: `(\/\/|\/\*)`, patternType: not},
+	{expression: `(//|/\*)`, patternType: not},
 
 	// avoiding C confusion
 	{expression: `(#(include|define)|printf|\s+int\s+)`, patternType: not},

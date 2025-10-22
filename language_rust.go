@@ -1,7 +1,7 @@
 package flourite
 
 var rust = []languagePattern{
-	{expression: `fn\smain()`, patternType: keywordFunction},
+	{expression: `fn\smain\(\)`, patternType: keywordFunction},
 	{expression: `(pub\s)?fn\s[A-Za-z0-9<>,]+\(.*\)\s->\s\w+(\s\{|)`, patternType: keywordVisibility},
 	{expression: `let\smut\s\w+(\s=|)`, patternType: keywordVariable},
 	{expression: `(.*)!\(.*\)`, patternType: macro},

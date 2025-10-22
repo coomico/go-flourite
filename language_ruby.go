@@ -22,7 +22,7 @@ var ruby = []languagePattern{
 	{expression: `\bmodule\s\S`, patternType: keywordOther},
 	{expression: `\bBEGIN\s\{.*\}`, patternType: keywordOther},
 	{expression: `\bEND\s\{.*\}`, patternType: keywordOther},
-	{expression: `do\s*[|]\w+(,\s*\w+)*[|]`, patternType: keywordControl},
+	{expression: `do\s*\|\w+(,\s*\w+)*\|`, patternType: keywordControl},
 	{expression: `for (\w+|\(?\w+,\s*\w+\)?) in (.+)`, patternType: keywordControl},
 	{expression: `nil`, patternType: constantNull},
 

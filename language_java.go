@@ -51,10 +51,10 @@ var java = []languagePattern{
 	{expression: `using\sSystem(\..*)?(;)?`, patternType: not},
 
 	// avoiding Kotlin confusion
-	{expression: `fun main\((.*)?\) {`, patternType: not},
-	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)({|=)`, patternType: not},
+	{expression: `fun main\((.*)?\) \{`, patternType: not},
+	{expression: `(inline(\s+))?fun(\s+)([A-Za-z0-9_])(\s+)?\((.*)\)(\s+)(\{|=)`, patternType: not},
 	{expression: `(const)?(\s+)?val(\s+)(.*)(:(\s)(.*)(\?)?)?(\s+)=(\s+)`, patternType: not},
 
 	// avoiding Dart confusion
-	{expression: `^(void\s)?main\(\)\s{`, patternType: not},
+	{expression: `^(void\s)?main\(\)\s\{`, patternType: not},
 }
