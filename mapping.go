@@ -23,6 +23,7 @@ const (
 	Lua
 	Markdown
 	Pascal
+	Perl
 	PHP
 	Python
 	Ruby
@@ -60,6 +61,7 @@ var langNames = []string{
 	Lua:        "Lua",
 	Markdown:   "Markdown",
 	Pascal:     "Pascal",
+	Perl:       "Perl",
 	PHP:        "PHP",
 	Python:     "Python",
 	Ruby:       "Ruby",
@@ -70,16 +72,42 @@ var langNames = []string{
 	YAML:       "YAML",
 }
 
+// extracted from https://github.com/github-linguist/linguist/blob/main/lib/linguist/languages.yml
 var interpreterMap = map[string]LangKind{
-	"node":   JavaScript,
-	"jsc":    JavaScript,
-	"rhino":  JavaScript,
-	"python": Python,
-	"bash":   Shell,
-	"ash":    Shell,
-	"zsh":    Shell,
-	"sh":     Shell,
-	"deno":   TypeScript,
+	"tcc":         C,
+	"elixir":      Elixir,
+	"chakra":      JavaScript,
+	"d8":          JavaScript,
+	"gjs":         JavaScript,
+	"js":          JavaScript,
+	"jsc":         JavaScript,
+	"node":        JavaScript,
+	"nodejs":      JavaScript,
+	"rhino":       JavaScript,
+	"qjs":         JavaScript,
+	"v8":          JavaScript,
+	"v8-shell":    JavaScript,
+	"julia":       Julia,
+	"instantfpc":  Pascal,
+	"perl":        Perl,
+	"php":         PHP,
+	"python":      Python,
+	"py":          Python,
+	"pypy":        Python,
+	"jruby":       Ruby,
+	"macruby":     Ruby,
+	"rake":        Ruby,
+	"rbx":         Ruby,
+	"ruby":        Ruby,
+	"rust-script": Rust,
+	"bash":        Shell,
+	"ash":         Shell,
+	"ksh":         Shell,
+	"sh":          Shell,
+	"zsh":         Shell,
+	"deno":        TypeScript,
+	"ts-node":     TypeScript,
+	"tsx":         TypeScript,
 }
 
 func getPatterns(lang LangKind) ([]languagePattern, bool) {
