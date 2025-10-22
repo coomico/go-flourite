@@ -1,55 +1,57 @@
 package flourite
 
+import "regexp"
+
 var cLang = []languagePattern{
-	{expression: `(char|long|int|float|double)\s+\w+\s*=?`, patternType: constantType},
-	{expression: `malloc\(.+\)`, patternType: keywordFunction},
-	{expression: `#include\s+(<|")\w+\.h(>|")`, patternType: metaImport, nearTop: true},
+	{expression: regexp.MustCompile(`(char|long|int|float|double)\s+\w+\s*=?`), patternType: constantType},
+	{expression: regexp.MustCompile(`malloc\(.+\)`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`#include\s+(<|")\w+\.h(>|")`), patternType: metaImport, nearTop: true},
 
 	// pointer
-	{expression: `(\w+)\s*\*\s*\w+`, patternType: keyword},
+	{expression: regexp.MustCompile(`(\w+)\s*\*\s*\w+`), patternType: keyword},
 
 	// var declaration and/or initialisation
-	{expression: `(\w+)\s+\w+(;|\s*=)`, patternType: macro},
+	{expression: regexp.MustCompile(`(\w+)\s+\w+(;|\s*=)`), patternType: macro},
 
 	// array declaration
-	{expression: `(\w+)\s+\w+\[.+\]`, patternType: keywordOther},
+	{expression: regexp.MustCompile(`(\w+)\s+\w+\[.+\]`), patternType: keywordOther},
 
 	// #define macro
-	{expression: `#define\s+.+`, patternType: macro},
+	{expression: regexp.MustCompile(`#define\s+.+`), patternType: macro},
 
-	{expression: `NULL`, patternType: constantNull},
-	{expression: `void`, patternType: keywordOther},
-	{expression: `(printf|puts)\s*\(.+\)`, patternType: keywordPrint},
+	{expression: regexp.MustCompile(`NULL`), patternType: constantNull},
+	{expression: regexp.MustCompile(`void`), patternType: keywordOther},
+	{expression: regexp.MustCompile(`(printf|puts)\s*\(.+\)`), patternType: keywordPrint},
 
 	// `new` keyword from C++
-	{expression: `new\s+\w+`, patternType: not},
+	{expression: regexp.MustCompile(`new\s+\w+`), patternType: not},
 
 	// `new` keyword from Java
-	{expression: `new\s+[A-Z]\w*\s*\(.+\)`, patternType: not},
+	{expression: regexp.MustCompile(`new\s+[A-Z]\w*\s*\(.+\)`), patternType: not},
 
 	// single quote with multichar
-	{expression: `'.{2,}'`, patternType: not},
+	{expression: regexp.MustCompile(`'.{2,}'`), patternType: not},
 
 	// JS variable declaration
-	{expression: `var\s+\w+\s*=?`, patternType: not},
+	{expression: regexp.MustCompile(`var\s+\w+\s*=?`), patternType: not},
 
 	// avoiding Ruby confusion
-	{expression: `def\s+\w+\s*(\(.+\))?\s*\n`, patternType: not},
-	{expression: `puts\s+("|').+("|')`, patternType: not},
+	{expression: regexp.MustCompile(`def\s+\w+\s*(\(.+\))?\s*\n`), patternType: not},
+	{expression: regexp.MustCompile(`puts\s+("|').+("|')`), patternType: not},
 
 	// avoiding C# confusion
-	{expression: `Console\.(WriteLine|Write)(\s*)?\(`, patternType: not},
-	{expression: `(using\s)?System(\..*)?(;)?`, patternType: not},
-	{expression: `(public\s)?((partial|static|delegate)\s)?(class\s)?`, patternType: not},
-	{expression: `(public|private|protected|internal)`, patternType: not},
+	{expression: regexp.MustCompile(`Console\.(WriteLine|Write)(\s*)?\(`), patternType: not},
+	{expression: regexp.MustCompile(`(using\s)?System(\..*)?(;)?`), patternType: not},
+	{expression: regexp.MustCompile(`(public\s)?((partial|static|delegate)\s)?(class\s)?`), patternType: not},
+	{expression: regexp.MustCompile(`(public|private|protected|internal)`), patternType: not},
 	{
-		expression:  `(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`,
+		expression:  regexp.MustCompile(`(new|this\s)?(List|IEnumerable)<(sbyte|byte|short|ushort|int|uint|long|ulong|float|double|decimal|bool|char|string)>`),
 		patternType: not,
 	},
 
 	// avoiding Lua confusion
-	{expression: `local\s(function|\w+)?`, patternType: not},
+	{expression: regexp.MustCompile(`local\s(function|\w+)?`), patternType: not},
 
 	// avoiding Dart confusion
-	{expression: `^(void\s)?main\(\)\s(async\s)?\{`, patternType: not},
+	{expression: regexp.MustCompile(`^(void\s)?main\(\)\s(async\s)?\{`), patternType: not},
 }

@@ -1,7 +1,6 @@
 package flourite
 
 import (
-	"regexp"
 	"strconv"
 )
 
@@ -54,8 +53,7 @@ func getPoints(line string, patterns []languagePattern, isNearTop bool) int {
 			continue
 		}
 
-		re := regexp.MustCompile(languagePattern.expression)
-		if valid := re.MatchString(line); valid {
+		if valid := languagePattern.expression.MatchString(line); valid {
 			points += parsePoint(languagePattern.patternType)
 		}
 	}

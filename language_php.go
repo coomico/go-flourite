@@ -1,36 +1,38 @@
 package flourite
 
+import "regexp"
+
 var php = []languagePattern{
 	// PHP tag
-	{expression: `<\?php`, patternType: metaModule},
+	{expression: regexp.MustCompile(`<\?php`), patternType: metaModule},
 
-	{expression: `\$\w+`, patternType: keywordVariable},
+	{expression: regexp.MustCompile(`\$\w+`), patternType: keywordVariable},
 
 	// use Something/Something;
-	{expression: `use\s+\w+(\\\w+)+\s*;`, patternType: metaImport, nearTop: true},
+	{expression: regexp.MustCompile(`use\s+\w+(\\\w+)+\s*;`), patternType: metaImport, nearTop: true},
 
 	// arrow
-	{expression: `\$\w+->\w+`, patternType: keyword},
+	{expression: regexp.MustCompile(`\$\w+->\w+`), patternType: keyword},
 
-	{expression: `(require|include)(_once)?\s*\(?\s*('|").+\.php('|")\s*\)?\s*;`, patternType: metaImport},
-	{expression: `echo\s+('|").+('|")\s*;`, patternType: keywordPrint},
-	{expression: `NULL`, patternType: constantNull},
-	{expression: `new\s+((\\\w+)+|\w+)(\(.*\))?`, patternType: keyword},
-	{expression: `function(\s+[$\w]+\(.*\)|\s*\(.*\))`, patternType: keywordFunction},
-	{expression: `(else)?if\s+\(.+\)`, patternType: keywordControl},
+	{expression: regexp.MustCompile(`(require|include)(_once)?\s*\(?\s*('|").+\.php('|")\s*\)?\s*;`), patternType: metaImport},
+	{expression: regexp.MustCompile(`echo\s+('|").+('|")\s*;`), patternType: keywordPrint},
+	{expression: regexp.MustCompile(`NULL`), patternType: constantNull},
+	{expression: regexp.MustCompile(`new\s+((\\\w+)+|\w+)(\(.*\))?`), patternType: keyword},
+	{expression: regexp.MustCompile(`function(\s+[$\w]+\(.*\)|\s*\(.*\))`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(else)?if\s+\(.+\)`), patternType: keywordControl},
 
 	// scope operator
-	{expression: `\w+::\w+`, patternType: keyword},
+	{expression: regexp.MustCompile(`\w+::\w+`), patternType: keyword},
 
-	{expression: `===`, patternType: keywordOperator},
-	{expression: `!==`, patternType: keywordOperator},
+	{expression: regexp.MustCompile(`===`), patternType: keywordOperator},
+	{expression: regexp.MustCompile(`!==`), patternType: keywordOperator},
 
 	// C/JS style variable declaration
-	{expression: `(^|\s)(var|char|long|int|float|double)\s+\w+\s*=?`, patternType: not},
+	{expression: regexp.MustCompile(`(^|\s)(var|char|long|int|float|double)\s+\w+\s*=?`), patternType: not},
 
 	// JavaScript variable declaration
-	{expression: `(var|const|let)\s+\w+\s*=?`, patternType: not},
+	{expression: regexp.MustCompile(`(var|const|let)\s+\w+\s*=?`), patternType: not},
 
 	// avoiding Lua confusion
-	{expression: `local\s(function|\w+)`, patternType: not},
+	{expression: regexp.MustCompile(`local\s(function|\w+)`), patternType: not},
 }

@@ -1,5 +1,7 @@
 package flourite
 
+import "regexp"
+
 type patternType uint8
 
 const (
@@ -89,7 +91,7 @@ const (
 )
 
 type languagePattern struct {
-	expression  string
+	expression  *regexp.Regexp
 	patternType patternType
 	nearTop     bool
 }

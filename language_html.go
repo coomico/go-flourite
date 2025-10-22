@@ -1,17 +1,19 @@
 package flourite
 
+import "regexp"
+
 var html = []languagePattern{
-	{expression: `<!DOCTYPE (?:html|HTML PUBLIC .+)>`, patternType: metaModule, nearTop: true},
+	{expression: regexp.MustCompile(`<!DOCTYPE (?:html|HTML PUBLIC .+)>`), patternType: metaModule, nearTop: true},
 
 	// tags
-	{expression: `<[a-z0-9]+(?:\s*[\w]+=(?:'|").+(?:'|")\s*)?>.+?</[a-z0-9]+>`, patternType: keyword},
+	{expression: regexp.MustCompile(`<[a-z0-9]+(?:\s*[\w]+=(?:'|").+(?:'|")\s*)?>.+?</[a-z0-9]+>`), patternType: keyword},
 
 	// comments
-	{expression: `<!--(.*)(?:-->)?`, patternType: commentBlock},
+	{expression: regexp.MustCompile(`<!--(.*)(?:-->)?`), patternType: commentBlock},
 
 	// properties
-	{expression: `[a-z-]+=(?:"|').+(?:"|')`, patternType: keywordOther},
+	{expression: regexp.MustCompile(`[a-z-]+=(?:"|').+(?:"|')`), patternType: keywordOther},
 
 	// PHP tag
-	{expression: `<\?php`, patternType: not},
+	{expression: regexp.MustCompile(`<\?php`), patternType: not},
 }

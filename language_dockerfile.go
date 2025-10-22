@@ -1,6 +1,9 @@
 package flourite
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 var dockerKeywords = []string{
 	"ADD",
@@ -25,7 +28,7 @@ var dockerKeywords = []string{
 	"WORKDIR",
 }
 
-var dockerExpression = "(?i)^(" + strings.Join(dockerKeywords, "|") + ")"
+var dockerExpression = regexp.MustCompile("(?i)^(" + strings.Join(dockerKeywords, "|") + ")")
 
 var dockerfile = []languagePattern{
 	{expression: dockerExpression, patternType: keyword},

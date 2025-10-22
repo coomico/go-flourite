@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+var (
+	reCRNewline = regexp.MustCompile(`[\r\n]+`)
+	reEmptyLine = regexp.MustCompile(`^\s*$`)
+)
+
 type Detector struct {
 	IsUnknown bool
 	Heuristic bool
@@ -20,7 +25,7 @@ func DefaultDetector() Detector {
 }
 
 func (d Detector) Detect(snippet string) DetectedLanguages {
-	snippet = regexp.MustCompile(`[\r\n]+`).ReplaceAllString(snippet, "\n")
+	snippet = reCRNewline.ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
 
 	if d.Heuristic && len(lines) > 500 {
@@ -50,7 +55,7 @@ func (d Detector) Detect(snippet string) DetectedLanguages {
 		var points int
 		for i := 0; i < len(lines); i++ {
 			// skip for empty line or contains only spaces
-			if regexp.MustCompile(`^\s*$`).MatchString(lines[i]) {
+			if reEmptyLine.MatchString(lines[i]) {
 				continue
 			}
 
