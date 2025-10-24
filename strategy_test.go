@@ -12,7 +12,7 @@ func TestDetect(t *testing.T) {
 		t.Error(err)
 	}
 
-	detector := Detector{}
+	strategy := Strategy{}
 
 	for _, langDir := range langs {
 		if langDir.IsDir() {
@@ -34,7 +34,7 @@ func TestDetect(t *testing.T) {
 							t.Error(err)
 						}
 
-						detected := detector.Detect(string(sample))
+						detected := strategy.Detect(string(sample))
 						got := detected.Best().Language.String()
 						if got != langName {
 							t.Errorf("detection error: got %s, want %s", got, langName)
@@ -53,7 +53,7 @@ func TestDetectWithHeuristicOpt(t *testing.T) {
 		t.Error(err)
 	}
 
-	detector := Detector{
+	strategy := Strategy{
 		Heuristic: true,
 	}
 
@@ -77,7 +77,7 @@ func TestDetectWithHeuristicOpt(t *testing.T) {
 							t.Error(err)
 						}
 
-						detected := detector.Detect(string(sample))
+						detected := strategy.Detect(string(sample))
 						got := detected.Best().Language.String()
 						if got != langName {
 							t.Errorf("detection error: got %s, want %s", got, langName)
@@ -115,12 +115,12 @@ func TestDetectInterpreter(t *testing.T) {
 		{"ruby-w-args-2", "#!/usr/bin/env -vS ruby -w -Ilib:test", Ruby},
 	}
 
-	detector := Detector{}
+	strategy := Strategy{}
 
 	for _, tc := range testcases {
 		t.Run(
 			tc.name, func(t *testing.T) {
-				res := detector.Detect(tc.snippet)
+				res := strategy.Detect(tc.snippet)
 				got := res[0].Language
 				if got != tc.lang {
 					t.Errorf("detection error: got %s, want %s", got, tc.lang)

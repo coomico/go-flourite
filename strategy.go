@@ -16,23 +16,20 @@ var (
 	reShebang = regexp.MustCompile(`^#!\s*(\S+)(?:\s+(?:(?:-[i0uCSv]*|--\S+|\S+=\S+)\s+)*(\S+))?.*`)
 )
 
-type Detector struct {
+type Strategy struct {
 	IsUnknown bool
 	Heuristic bool
 }
 
-func DefaultDetector() Detector {
-	return Detector{
-		IsUnknown: true,
-		Heuristic: true,
-	}
+var DefaultStrategy = Strategy{
+	Heuristic: true,
 }
 
-func (d Detector) Detect(snippet string) DetectedLanguages {
+func (s Strategy) Detect(snippet string) DetectedLanguages {
 	snippet = reCRNewline.ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
 
-	if d.Heuristic && len(lines) > 500 {
+	if s.Heuristic && len(lines) > 500 {
 		lines = heuristicOptimization(lines)
 	}
 
@@ -46,7 +43,7 @@ func (d Detector) Detect(snippet string) DetectedLanguages {
 	}
 
 	results := make(DetectedLanguages, 0, len(langNames))
-	if d.IsUnknown {
+	if s.IsUnknown {
 		results = append(results, LangPoint{Unknown, 1})
 	}
 
@@ -73,7 +70,7 @@ func (d Detector) Detect(snippet string) DetectedLanguages {
 }
 
 func Detect(s string) DetectedLanguages {
-	return DefaultDetector().Detect(s)
+	return DefaultStrategy.Detect(s)
 }
 
 type DetectedLanguages []LangPoint
