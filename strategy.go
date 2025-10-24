@@ -89,7 +89,7 @@ func (dl DetectedLanguages) String() string {
 	s := strings.Builder{}
 	for i, l := range dl {
 		if i > 0 && i < len(dl) {
-			s.WriteString(";")
+			s.WriteString(" ")
 		}
 
 		s.WriteString(l.String())

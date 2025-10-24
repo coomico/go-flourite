@@ -10,7 +10,7 @@ type LangPoint struct {
 }
 
 func (lp LangPoint) String() string {
-	return lp.Language.String() + "=" + strconv.Itoa(lp.Points)
+	return lp.Language.String() + ":" + strconv.Itoa(lp.Points)
 }
 
 func parsePoint(p patternType) int {
