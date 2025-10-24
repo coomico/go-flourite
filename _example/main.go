@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	flourite "go-flourite"
+	"github.com/coomico/go-flourite"
 )
 
 func main() {
