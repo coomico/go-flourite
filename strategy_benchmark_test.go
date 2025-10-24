@@ -6,7 +6,7 @@ import (
 
 var blackhole string
 
-func BenchmarkDefaultDetector(b *testing.B) {
+func BenchmarkDefaultStrategy(b *testing.B) {
 	snippet := `package chroma
 
 import (
