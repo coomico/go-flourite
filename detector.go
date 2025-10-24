@@ -37,7 +37,7 @@ func (d Detector) Detect(snippet string) DetectedLanguages {
 	}
 
 	if strings.Contains(lines[0], "#!") {
-		interpreter := interpreterCheck(lines[0])
+		interpreter := getInterpreter(lines[0])
 		if lang, ok := interpreterMap[interpreter]; ok {
 			return DetectedLanguages{
 				{lang, 5},
@@ -103,7 +103,7 @@ func (dl DetectedLanguages) String() string {
 
 // acknowledge:
 // https://github.com/dayvonjersen/linguist/blob/c82f0abfd1c3a1d6b4c467489292d22ea1907a4f/linguist.go#L131
-func interpreterCheck(s string) string {
+func getInterpreter(s string) string {
 	shebang := reShebang.FindStringSubmatch(s)
 	if shebang == nil || len(shebang) != 3 {
 		return ""
