@@ -1,3 +1,5 @@
+// Package flourite is a go port of typescript flourite library (https://github.com/teknologi-umum/flourite),
+// provides programming language detection from a given string.
 package flourite
 
 import (
@@ -16,15 +18,28 @@ var (
 	reShebang = regexp.MustCompile(`^#!\s*(\S+)(?:\s+(?:(?:-[i0uCSv]*|--\S+|\S+=\S+)\s+)*(\S+))?.*`)
 )
 
+// A Strategy is detection strategy. Its default value ([DefaultStrategy])
+// is a usable strategy that enable heuristic optimisation.
 type Strategy struct {
+	// IsUnknown is an option to enable [Unknown] as a fallback language
+	// when no language is detected.
 	IsUnknown bool
+
+	// Heuristic is an option to enable heuristic optimization for better performance.
+	// Only usefull when the number of lines of code is more than 500.
 	Heuristic bool
 }
 
+// DefaultStrategy is the default [Strategy] and is used by [Detect].
 var DefaultStrategy = Strategy{
 	Heuristic: true,
 }
 
+// Detect using a given [Strategy] and returns the [DetectedLanguages] containing
+// all languages with their points.
+//
+// If there is a shebang on the first lines of code, it will return [DetectedLanguages]
+// containing only language detected by to the given interpreter.
 func (s Strategy) Detect(snippet string) DetectedLanguages {
 	snippet = reCRNewline.ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
@@ -69,12 +84,15 @@ func (s Strategy) Detect(snippet string) DetectedLanguages {
 	return results
 }
 
+// Detect is [Strategy.Detect] with [DefaultStrategy].
 func Detect(s string) DetectedLanguages {
 	return DefaultStrategy.Detect(s)
 }
 
+// A DetectedLanguages is an alias for the [LangPoint] list.
 type DetectedLanguages []LangPoint
 
+// Best return the [LangPoint] with the most points
 func (dl DetectedLanguages) Best() LangPoint {
 	best := dl[0]
 	for i := 1; i < len(dl); i++ {
@@ -85,6 +103,7 @@ func (dl DetectedLanguages) Best() LangPoint {
 	return best
 }
 
+// String return all languages along with their respective points.
 func (dl DetectedLanguages) String() string {
 	s := strings.Builder{}
 	for i, l := range dl {

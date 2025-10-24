@@ -1,5 +1,6 @@
 package flourite
 
+// A LangKind represents a programming languages. The zero LangKind represent an Unknown language
 type LangKind uint
 
 const (
@@ -34,6 +35,7 @@ const (
 	YAML
 )
 
+// String return the name of l (programming language).
 func (l LangKind) String() string {
 	if uint(l) < uint(len(langNames)) {
 		return langNames[l]

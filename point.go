@@ -4,11 +4,13 @@ import (
 	"strconv"
 )
 
+// A LangPoint describes a single result in a [DetectedLanguages].
 type LangPoint struct {
-	Language LangKind
-	Points   int
+	Language LangKind // the specific language
+	Points   int      // is the total points obtained by that language
 }
 
+// String return the language name along with its points.
 func (lp LangPoint) String() string {
 	return lp.Language.String() + ":" + strconv.Itoa(lp.Points)
 }
