@@ -47,6 +47,49 @@ func TestDetect(t *testing.T) {
 	}
 }
 
+func TestDetectWithHeuristicOpt(t *testing.T) {
+	langs, err := os.ReadDir("testdata/languages")
+	if err != nil {
+		t.Error(err)
+	}
+
+	detector := Detector{
+		Heuristic: true,
+	}
+
+	for _, langDir := range langs {
+		if langDir.IsDir() {
+			langName := langDir.Name()
+			dirname := filepath.Join("testdata/languages", langName)
+			files, err := os.ReadDir(dirname)
+			if err != nil {
+				t.Error(err)
+			}
+
+			for _, file := range files {
+				filename := file.Name()
+				path := filepath.Join(dirname, filename)
+				t.Run(
+					langName+"/"+filename, func(t *testing.T) {
+						t.Parallel()
+						sample, err := os.ReadFile(path)
+						if err != nil {
+							t.Error(err)
+						}
+
+						detected := detector.Detect(string(sample))
+						got := detected.Best().Language.String()
+						if got != langName {
+							t.Errorf("detection error: got %s, want %s", got, langName)
+							t.Error(detected)
+						}
+					},
+				)
+			}
+		}
+	}
+}
+
 func TestDetectInterpreter(t *testing.T) {
 	testcases := []struct {
 		name    string
