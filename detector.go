@@ -10,6 +10,10 @@ import (
 var (
 	reCRNewline = regexp.MustCompile(`[\r\n]+`)
 	reEmptyLine = regexp.MustCompile(`^\s*$`)
+	reVersion   = regexp.MustCompile(`((?:\d+\.?)+)`)
+
+	// skip for optional and variable args, then find the path and interpreter
+	reShebang = regexp.MustCompile(`^#!\s*(\S+)(?:\s+(?:(?:-[i0uCSv]*|--\S+|\S+=\S+)\s+)*(\S+))?.*`)
 )
 
 type Detector struct {
@@ -100,8 +104,7 @@ func (dl DetectedLanguages) String() string {
 // acknowledge:
 // https://github.com/dayvonjersen/linguist/blob/c82f0abfd1c3a1d6b4c467489292d22ea1907a4f/linguist.go#L131
 func interpreterCheck(s string) string {
-	shebangExpr := regexp.MustCompile(`^#!\s*(\S+)(?:\s+(\S+))?.*`)
-	shebang := shebangExpr.FindStringSubmatch(s)
+	shebang := reShebang.FindStringSubmatch(s)
 	if shebang == nil || len(shebang) != 3 {
 		return ""
 	}
@@ -115,8 +118,7 @@ func interpreterCheck(s string) string {
 		base = shebang[2]
 	}
 
-	versionExpr := regexp.MustCompile(`((?:\d+\.?)+)`)
-	return versionExpr.ReplaceAllString(base, "")
+	return reVersion.ReplaceAllString(base, "")
 }
 
 func heuristicOptimization(lines []string) []string {
