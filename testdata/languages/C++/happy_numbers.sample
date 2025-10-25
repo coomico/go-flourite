@@ -1,4 +1,4 @@
-const code = detectLang(`#include <map>
+#include <map>
 #include <set>
 
 bool happy(int number) {

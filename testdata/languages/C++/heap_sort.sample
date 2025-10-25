@@ -1,4 +1,4 @@
-const code = detectLang(`#include <algorithm>
+#include <algorithm>
 #include <iterator>
 #include <iostream>
 

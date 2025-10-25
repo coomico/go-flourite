@@ -1,4 +1,4 @@
-const code = detectLang(`#include <vector>
+#include <vector>
 #include <iostream>
 using namespace std;
 

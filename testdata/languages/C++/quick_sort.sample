@@ -1,4 +1,4 @@
-  const code = detectLang(`#include <iterator>
+  #include <iterator>
   #include <algorithm> // for std::partition
   #include <functional> // for std::less
 

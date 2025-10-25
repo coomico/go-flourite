@@ -1,4 +1,4 @@
-const code = detectLang(`#include <iostream>
+#include <iostream>
 #include <functional>
 
 template <typename F>
