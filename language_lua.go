@@ -6,9 +6,12 @@ var lua = []languagePattern{
 	// multiline string
 	{expression: regexp.MustCompile(`(\[\[.*\]\])`), patternType: constantString},
 
-	{expression: regexp.MustCompile(`local\s([a-zA-Z0-9_]+)(\s*=)?`), patternType: keywordVariable},
+	{expression: regexp.MustCompile(`\blocal\s+[a-zA-Z0-9_]+(\s*=)?`), patternType: keywordVariable},
 	{expression: regexp.MustCompile(`(local\s)?function\s*([a-zA-Z0-9_]*)?\(\)`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`for\s+([a-zA-Z]+)\s*=\s*([a-zA-Z0-9_]+),\s*([a-zA-Z0-9_]+)\s+do`), patternType: keywordControl},
+	{
+		expression:  regexp.MustCompile(`for\s+([a-zA-Z]+)\s*=\s*([a-zA-Z0-9_]+),\s*([a-zA-Z0-9_]+)\s+do`),
+		patternType: keywordControl,
+	},
 	{expression: regexp.MustCompile(`while\s(.*)\sdo`), patternType: keywordControl},
 	{
 		expression:  regexp.MustCompile(`\s+(and|break|do|else|elseif|end|false|function|if|in|not|or|local|repeat|return|then|true|until|pairs|ipairs|in|yield)`),
@@ -23,7 +26,10 @@ var lua = []languagePattern{
 	{expression: regexp.MustCompile(`((get|set)metatable|raw(get|set|equal))\(.*\)`), patternType: keywordOther},
 
 	// metamethods
-	{expression: regexp.MustCompile(`__(index|newindex|call|sub|mul|div|mod|pow|unm|eq|le|lt)`), patternType: keywordOther},
+	{
+		expression:  regexp.MustCompile(`__(index|newindex|call|sub|mul|div|mod|pow|unm|eq|le|lt)`),
+		patternType: keywordOther,
+	},
 
 	// method invocation
 	{expression: regexp.MustCompile(`(\(.+\)|([a-zA-Z_]+)):([a-zA-Z_])\(.*\)`), patternType: keywordOther},
