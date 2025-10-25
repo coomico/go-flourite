@@ -28,8 +28,13 @@ var dockerKeywords = []string{
 	"WORKDIR",
 }
 
-var dockerExpression = regexp.MustCompile("(?i)^(" + strings.Join(dockerKeywords, "|") + ")")
+var dockerExpression = regexp.MustCompile(`(?i)^\s*(?:` + strings.Join(dockerKeywords, "|") + `)(?:\s|$)`)
 
 var dockerfile = []languagePattern{
 	{expression: dockerExpression, patternType: keyword},
+
+	// line continuations
+	{expression: regexp.MustCompile(`\\\s*$`), patternType: keyword},
+
+	{expression: regexp.MustCompile(`^\s*#`), patternType: commentLine},
 }
