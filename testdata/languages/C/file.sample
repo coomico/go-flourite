@@ -1,0 +1,9 @@
+static int IndexEntry__set_mtime__meth(lua_State *L) {
+    IndexEntry * this_idx1 = obj_type_IndexEntry_check(L,1);
+    git_time_t secs_idx2 = luaL_checkinteger(L,2);
+    unsigned int nanosecs_idx3 = luaL_checkinteger(L,3);
+    this_idx1->mtime.seconds = secs_idx2;
+    this_idx1->mtime.nanoseconds = nanosecs_idx3;
+
+    return 0;
+}
