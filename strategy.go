@@ -96,7 +96,7 @@ type DetectedLanguages []LangPoint
 func (dl DetectedLanguages) Best() LangPoint {
 	best := dl[0]
 	for i := 1; i < len(dl); i++ {
-		if dl[i].Points >= best.Points {
+		if dl[i].Points > best.Points {
 			best = dl[i]
 		}
 	}
