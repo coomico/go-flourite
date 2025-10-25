@@ -9,7 +9,10 @@ var java = []languagePattern{
 	{expression: regexp.MustCompile(`(private|protected|public)\s*\w+\s*\w+(\s*=\s*[\w])?`), patternType: keyword},
 
 	// method
-	{expression: regexp.MustCompile(`(private|protected|public)\s*\w+\s*[\w]+\(.+\)`), patternType: keyword},
+	{
+		expression:  regexp.MustCompile(`\b(private|protected|public)\s+(static\s+)?(\w+(<.*>)?|\w+\[\])\s+\w+\s*\([^)]*\)\s*(throws\s+\w+)?\s*\{`),
+		patternType: keyword,
+	},
 
 	// string class
 	{expression: regexp.MustCompile(`(^|\s)(String)\s+[\w]+\s*=?`), patternType: keywordOther},
@@ -18,20 +21,29 @@ var java = []languagePattern{
 	{expression: regexp.MustCompile(`(List<\w+>|ArrayList<\w*>\s*\(.*\))(\s+[\w]+|;)`), patternType: keywordVariable},
 
 	// class keyword
-	{expression: regexp.MustCompile(`(public\s*)?class\b.*?\{`), patternType: keyword},
+	{expression: regexp.MustCompile(`(public\s+)?class\s+\w+(\s+extends|\s+implements|\s*\{)`), patternType: keyword},
 
 	// array declaration
 	{expression: regexp.MustCompile(`(\w+)(\[\s*\])+\s+\w+`), patternType: constantArray},
 
 	{expression: regexp.MustCompile(`final\s*\w+`), patternType: keywordOther},
 	{expression: regexp.MustCompile(`\w+\.(get|set)\(.+\)`), patternType: keywordOther},
-	{expression: regexp.MustCompile(`new [A-Z]\w*\s*\(.+\)`), patternType: keywordOther},
-	{expression: regexp.MustCompile(`(^|\s)(char|long|int|float|double)\s+[\w]+\s*=?`), patternType: constantType},
-	{expression: regexp.MustCompile(`(extends|implements)`), patternType: metaModule, nearTop: true},
+	{expression: regexp.MustCompile(`\bnew\s+[A-Z]\w*\s*\(`), patternType: keywordOther},
+	{
+		expression:  regexp.MustCompile(`\b(char|byte|short|long|int|float|double|boolean)\s+\w+\s*(=|;)`),
+		patternType: constantType,
+	},
+	{expression: regexp.MustCompile(`\b(extends|implements)\s+\w+`), patternType: metaModule, nearTop: true},
 	{expression: regexp.MustCompile(`null`), patternType: keywordOther},
 	{expression: regexp.MustCompile(`(else )?if\s*\(.+\)`), patternType: keywordControl},
 	{expression: regexp.MustCompile(`while\s+\(.+\)`), patternType: keywordControl},
 	{expression: regexp.MustCompile(`void`), patternType: keywordOther},
+
+	// Java annotations
+	{
+		expression:  regexp.MustCompile(`@(Override|Deprecated|SuppressWarnings|FunctionalInterface|SafeVarargs)\b`),
+		patternType: keywordOther,
+	},
 
 	{expression: regexp.MustCompile(`const\s*\w+`), patternType: not},
 	{expression: regexp.MustCompile(`(\w+)\s*\*\s*\w+`), patternType: not},
