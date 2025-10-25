@@ -4,7 +4,7 @@ import "regexp"
 
 var typescript = []languagePattern{
 	{
-		expression:  regexp.MustCompile(`(Readonly<|ReadonlyArray<|Array<|Record<|Pick<|Omit<|Exclude<|Extract<)`),
+		expression:  regexp.MustCompile(`(Readonly<|ReadonlyArray<|Array<|Record<|Pick<|Omit<|Exclude<|Extract<|Required<|Partial<|ReturnType<|Parameters<)`),
 		patternType: constantDictionary,
 	},
 	{expression: regexp.MustCompile(`\w+\[\]`), patternType: keywordOther},
@@ -20,13 +20,14 @@ var typescript = []languagePattern{
 	{expression: regexp.MustCompile(`console\.log\s*\(`), patternType: keywordPrint},
 	{expression: regexp.MustCompile(`interface\s*(\w+)\s*\{`), patternType: constantType},
 	{expression: regexp.MustCompile(`enum\s*\w+\s*=`), patternType: constantType},
-	{expression: regexp.MustCompile(`type\s*(\w+)\s*=`), patternType: constantType},
+	{expression: regexp.MustCompile(`type\s+\w+<[^>]+>\s*=\s*\{`), patternType: constantType},
 	{expression: regexp.MustCompile(`function\s+\w+\(.*\):\s\w+\s*\{`), patternType: keywordFunction},
 
 	// arrow function
 	{expression: regexp.MustCompile(`\(.*\):\s\w+\s*=>\s*\{`), patternType: keywordFunction},
 
 	{expression: regexp.MustCompile(`(typeof|declare)\s+`), patternType: keyword},
+	{expression: regexp.MustCompile(`\b(keyof|infer)\s+\w+`), patternType: keyword},
 	{expression: regexp.MustCompile(`\s+as\s+`), patternType: keyword},
 
 	// Rust types

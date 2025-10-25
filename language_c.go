@@ -3,9 +3,13 @@ package flourite
 import "regexp"
 
 var cLang = []languagePattern{
-	{expression: regexp.MustCompile(`(char|long|int|float|double)\s+\w+\s*=?`), patternType: constantType},
-	{expression: regexp.MustCompile(`malloc\(.+\)`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`#include\s+(<|")\w+\.h(>|")`), patternType: metaImport, nearTop: true},
+	{
+		expression:  regexp.MustCompile(`\b(unsigned|signed)?\s*(char|short|int|long|long\s+long|float|double)\s+(\*+)?\w+\s*(\[.+\])?(\s*=)?`),
+		patternType: constantType,
+	},
+	{expression: regexp.MustCompile(`\b(m|c|re)alloc\s*\(.+\)`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`\bfree\s*\(.+\)`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`#include\s*[<"].+\.h[">]`), patternType: metaImport, nearTop: true},
 
 	// pointer
 	{expression: regexp.MustCompile(`(\w+)\s*\*\s*\w+`), patternType: keyword},
@@ -53,5 +57,6 @@ var cLang = []languagePattern{
 	{expression: regexp.MustCompile(`local\s(function|\w+)?`), patternType: not},
 
 	// avoiding Dart confusion
-	{expression: regexp.MustCompile(`^(void\s)?main\(\)\s(async\s)?\{`), patternType: not},
+	{expression: regexp.MustCompile(`^(void\s)?main\s*\(\s*\)\s*(async\s*)?\{\s*$`), patternType: not},
+	{expression: regexp.MustCompile(`\btypedef\s+\w+<.+>=.+Function`), patternType: not},
 }

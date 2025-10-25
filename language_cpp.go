@@ -6,7 +6,7 @@ var cpp = []languagePattern{
 	{expression: regexp.MustCompile(`(char|long|int|float|double)\s+\w+\s*=?`), patternType: constantType},
 	{expression: regexp.MustCompile(`#include\s*(<|")\w+(\.h)?(>|")`), patternType: metaImport},
 	{expression: regexp.MustCompile(`using\s+namespace\s+.+\s*;`), patternType: keyword},
-	{expression: regexp.MustCompile(`template\s*<.*>`), patternType: keyword},
+	{expression: regexp.MustCompile(`template\s*<[^>]+>\s*(class|struct|typename)`), patternType: keyword},
 	{expression: regexp.MustCompile(`std::\w+`), patternType: keywordOther},
 	{expression: regexp.MustCompile(`(cout|cin|endl)`), patternType: keywordPrint},
 	{expression: regexp.MustCompile(`(public|protected|private):`), patternType: keywordVisibility},
@@ -15,7 +15,10 @@ var cpp = []languagePattern{
 	{expression: regexp.MustCompile(`#define\s+.+`), patternType: macro},
 
 	// template usage
-	{expression: regexp.MustCompile(`\w+<\w+>`), patternType: keywordOther},
+	{
+		expression:  regexp.MustCompile(`(std::\w+<\w+>|vector<\w+>|map<\w+,\s*\w+>|set<\w+>|pair<\w+,\s*\w+>)`),
+		patternType: keywordOther,
+	},
 
 	{expression: regexp.MustCompile(`class\s+\w+`), patternType: keyword},
 	{expression: regexp.MustCompile(`void`), patternType: keyword},
