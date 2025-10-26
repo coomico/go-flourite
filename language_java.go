@@ -3,6 +3,7 @@ package flourite
 import "regexp"
 
 var java = []languagePattern{
+	{expression: regexp.MustCompile(`^\s*import\s+[\w.]+(;|\s|$)`), patternType: metaImport, nearTop: true},
 	{expression: regexp.MustCompile(`System\.(in|out)\.\w+`), patternType: keywordPrint},
 
 	// class variable declarations
@@ -18,7 +19,15 @@ var java = []languagePattern{
 	{expression: regexp.MustCompile(`(^|\s)(String)\s+[\w]+\s*=?`), patternType: keywordOther},
 
 	// List/ArrayList
-	{expression: regexp.MustCompile(`(List<\w+>|ArrayList<\w*>\s*\(.*\))(\s+[\w]+|;)`), patternType: keywordVariable},
+	{
+		expression:  regexp.MustCompile(`\b(List|ArrayList|LinkedList|Vector|Stack)<[^>]+>\s+\w+`),
+		patternType: keywordVariable,
+	},
+
+	{
+		expression:  regexp.MustCompile(`\bnew\s+(ArrayList|HashMap|HashSet|LinkedList|TreeMap|TreeSet)<[^>]*>\s*\(`),
+		patternType: keywordOther,
+	},
 
 	// class keyword
 	{expression: regexp.MustCompile(`(public\s+)?class\s+\w+(\s+extends|\s+implements|\s*\{)`), patternType: keyword},

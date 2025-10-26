@@ -13,7 +13,10 @@ var javascript = []languagePattern{
 
 	{expression: regexp.MustCompile(`===`), patternType: keywordOperator},
 	{expression: regexp.MustCompile(`!==`), patternType: keywordOperator},
-	{expression: regexp.MustCompile(`function\*?\s*([A-Za-z$_][\w$]*)?\s*\([^:;()]*\)\s*\{`), patternType: keywordFunction},
+	{
+		expression:  regexp.MustCompile(`function\*?\s*([A-Za-z$_][\w$]*)?\s*\([^:;()]*\)\s*\{`),
+		patternType: keywordFunction,
+	},
 
 	// arrow function
 	{expression: regexp.MustCompile(`\(*\s*=>\s*\{`), patternType: keywordFunction},
@@ -25,6 +28,7 @@ var javascript = []languagePattern{
 
 	{expression: regexp.MustCompile(`(else )?if\s+\(.+\)`), patternType: keywordControl},
 	{expression: regexp.MustCompile(`while\s+\(.+\)`), patternType: keywordControl},
+	{expression: regexp.MustCompile(`for\s+\(.+\)`), patternType: keywordControl},
 
 	// C style variable declaration
 	{expression: regexp.MustCompile(`(^|\s)(char|long|int|float|double)\s+\w+\s*=?`), patternType: not},
