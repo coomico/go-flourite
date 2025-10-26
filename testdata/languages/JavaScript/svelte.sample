@@ -1,0 +1,17 @@
+onMount(() => {
+    const onNavigationStart = () => {
+        nprogress.start()
+    }
+
+    const onNavigationEnd = () => {
+        nprogress.done()
+    }
+
+    window.addEventListener('sveltekit:navigation-start', onNavigationStart)
+    window.addEventListener('sveltekit:navigation-end', onNavigationEnd)
+
+    return () => {
+        window.removeEventListener('sveltekit:navigation-start', onNavigationStart)
+        window.removeEventListener('sveltekit:navigation-end', onNavigationEnd)
+    }
+})
