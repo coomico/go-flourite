@@ -1,0 +1,15 @@
+local elements = u.namelist()
+
+[[element1]] {
+  bg = 0xffffff;
+  fg = nil;
+}
+
+[[element2]] {
+  num = 123123;
+}
+
+[[fooooooo]] {
+  ["false"] = true;
+  [0] = false;
+}

@@ -1,4 +1,3 @@
-
 local FileListParser = pd.Class:new():register("vidya-file-list-parser")
 
 function FileListParser:initialize(sel, atoms)

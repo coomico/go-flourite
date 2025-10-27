@@ -1,0 +1,9 @@
+foo("bar")
+foo "bar"
+foo_fasda 'bar'
+foo [[bar]]
+foo"bar"
+foo'bar'
+foo[[bar]]
+foo {...}
+foo{...}
