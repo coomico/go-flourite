@@ -5,7 +5,7 @@ import "regexp"
 var julia = []languagePattern{
 	{expression: regexp.MustCompile(`\busing\s+\w+`), patternType: metaImport},
 	{expression: regexp.MustCompile(`\b(bare\s+)?module\b`), patternType: metaModule},
-	{expression: regexp.MustCompile(`function\s+\w+\s*\([^)]*\)\s*\n`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`function\s+\w+\s*\([^)]*\)`), patternType: keywordFunction},
 
 	// new{T} constructor
 	{expression: regexp.MustCompile(`\bnew\{[^}]+\}`), patternType: keywordOther},
@@ -15,7 +15,7 @@ var julia = []languagePattern{
 
 	{expression: regexp.MustCompile(`\w+!\s*\(`), patternType: macro},
 	{expression: regexp.MustCompile(`for\s+\w+\s+(in|=)\s+`), patternType: keywordControl},
-	{expression: regexp.MustCompile(`while\s+[^{]+\n`), patternType: keywordControl},
+	{expression: regexp.MustCompile(`while\s+[^{]+`), patternType: keywordControl},
 	{expression: regexp.MustCompile(`\breturn\s+`), patternType: keywordControl},
 
 	{expression: regexp.MustCompile(`Union\{[^}]+\}`), patternType: keywordVariable},
@@ -28,7 +28,7 @@ var julia = []languagePattern{
 	{expression: regexp.MustCompile(`(::)?(Int|Uint)(8|16|32|64|128)`), patternType: keywordVariable},
 	{expression: regexp.MustCompile(`\b(::)?Float(16|32|64)\b`), patternType: keywordVariable},
 	{expression: regexp.MustCompile(`[0-9]+im\b`), patternType: keyword},
-	{expression: regexp.MustCompile(`\bNothing\b`), patternType: constantNull},
+	{expression: regexp.MustCompile(`(?i)\bnothing\b`), patternType: constantNull},
 	{expression: regexp.MustCompile(`\bSubString\s*\(`), patternType: keywordOther},
 	{expression: regexp.MustCompile(`\blength\s*\(`), patternType: keywordOther},
 

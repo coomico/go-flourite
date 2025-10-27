@@ -3,18 +3,22 @@ package flourite
 import "regexp"
 
 var lua = []languagePattern{
+	{expression: regexp.MustCompile(`\bmodule\s*\(\s*["'][^"']+["']\s*[,)]`), patternType: metaModule},
+
 	// multiline string
 	{expression: regexp.MustCompile(`(\[\[.*\]\])`), patternType: constantString},
 
-	{expression: regexp.MustCompile(`\blocal\s+[a-zA-Z0-9_]+(\s*=)?`), patternType: keywordVariable},
-	{expression: regexp.MustCompile(`(local\s)?function\s*([a-zA-Z0-9_]*)?\(\)`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`\blocal\s+[a-zA-Z_][a-zA-Z0-9_]*(\s*=)?`), patternType: keywordVariable},
+	{expression: regexp.MustCompile(`(local\s+)?function\s+([a-zA-Z0-9_.]+)?\s*\([^)]*\)`), patternType: keywordFunction},
 	{
-		expression:  regexp.MustCompile(`for\s+([a-zA-Z]+)\s*=\s*([a-zA-Z0-9_]+),\s*([a-zA-Z0-9_]+)\s+do`),
+		expression:  regexp.MustCompile(`\bfor\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*[a-zA-Z0-9_]+\s*,\s*[a-zA-Z0-9_]+\s+do\b`),
 		patternType: keywordControl,
 	},
-	{expression: regexp.MustCompile(`while\s(.*)\sdo`), patternType: keywordControl},
+	{expression: regexp.MustCompile(`\bwhile\s+.+\s+do\b`), patternType: keywordControl},
+	{expression: regexp.MustCompile(`\b(if|elseif)\s+.+\s+then\b`), patternType: keywordControl},
+
 	{
-		expression:  regexp.MustCompile(`\s+(and|break|do|else|elseif|end|false|function|if|in|not|or|local|repeat|return|then|true|until|pairs|ipairs|in|yield)`),
+		expression:  regexp.MustCompile(`\s+(and|break|do|else|end|false|function|in|not|or|local|repeat|return|then|true|until|pairs|ipairs|in|yield)`),
 		patternType: keywordOther,
 	},
 	{expression: regexp.MustCompile(`nil`), patternType: constantNull},
@@ -27,12 +31,12 @@ var lua = []languagePattern{
 
 	// metamethods
 	{
-		expression:  regexp.MustCompile(`__(index|newindex|call|sub|mul|div|mod|pow|unm|eq|le|lt)`),
+		expression:  regexp.MustCompile(`__(index|newindex|call|add|sub|mul|div|mod|pow|unm|concat|len|eq|lt|le|tostring|metatable|gc|mode)`),
 		patternType: keywordOther,
 	},
 
 	// method invocation
-	{expression: regexp.MustCompile(`(\(.+\)|([a-zA-Z_]+)):([a-zA-Z_])\(.*\)`), patternType: keywordOther},
+	{expression: regexp.MustCompile(`[a-zA-Z_][a-zA-Z0-9_]*:[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: keywordOther},
 
 	// array-like table
 	{expression: regexp.MustCompile(`\{\s*[^\s;,]+([;,]\s*[^\s;,]+)*,?\s*\}`), patternType: constantArray},
@@ -44,20 +48,20 @@ var lua = []languagePattern{
 	},
 
 	// built-in methods
-	{expression: regexp.MustCompile(`math\.(.*)\([0-9]*\)`), patternType: macro},
-	{expression: regexp.MustCompile(`table\.(.*)\(.*\)`), patternType: macro},
-	{expression: regexp.MustCompile(`io\.(.*)\(.*\)`), patternType: macro},
+	{expression: regexp.MustCompile(`\bmath\.[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: macro},
+	{expression: regexp.MustCompile(`\btable\.[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: macro},
+	{expression: regexp.MustCompile(`\bio\.[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: macro},
+	{expression: regexp.MustCompile(`\bstring\.[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: macro},
+	{expression: regexp.MustCompile(`\bos\.[a-zA-Z_][a-zA-Z0-9_]*\s*\(`), patternType: macro},
 
 	// built-in functions
-	{expression: regexp.MustCompile(`(require|dofile)\((.*)\)`), patternType: metaImport},
+	{expression: regexp.MustCompile(`\b(require|dofile|loadfile|load)\s*\(`), patternType: metaImport},
 	{expression: regexp.MustCompile(`(pcall|xpcall|unpack|pack|coroutine)`), patternType: keywordOther},
 
 	{expression: regexp.MustCompile(`--(\[\[)?.*`), patternType: commentLine},
 
 	// rest args
 	{expression: regexp.MustCompile(`\.\.\.`), patternType: keywordOther},
-
-	{expression: regexp.MustCompile(`\bmodule\s*\(.*\)`), patternType: keywordOther},
 
 	// invalid comments
 	{expression: regexp.MustCompile(`(//|/\*)`), patternType: not},

@@ -14,7 +14,7 @@ var python = []languagePattern{
 
 	// python variable declaration
 	// [!] the original one isn't compatible with Golang regexp std library
-	{expression: regexp.MustCompile(`\w+\s*=\s*[^:;\n=]+\s*?(\n|$)`), patternType: keyword},
+	{expression: regexp.MustCompile(`^\s*[a-zA-Z_][a-zA-Z0-9_]*\s*=\s*[^:;=\n]+\s*$`), patternType: keyword},
 
 	{expression: regexp.MustCompile(`import ([[^.]\w])+`), patternType: metaImport, nearTop: true},
 	{expression: regexp.MustCompile(`print((\s*\(.+\))|\s+.+)`), patternType: keywordPrint},
