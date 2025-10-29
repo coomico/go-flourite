@@ -1,0 +1,20 @@
+const http = require('http');
+
+interface Error {
+    message: string
+}
+
+http.get('http://rosettacode.org', (resp: any): void => {
+    let data: string = '';
+
+    resp.on('data', (chunk: any): void => {
+        data += chunk;
+    });
+
+    resp.on('end', (): void => {
+        console.log("Data:", data);
+    });
+
+}).on("error", (err: Error): void => {
+    console.log("Error: " + err.message);
+});

@@ -1,0 +1,7 @@
+foo:
+  <<: *base
+  age: 10
+
+bar:
+  <<: *base
+  age: 20

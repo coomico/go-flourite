@@ -1,0 +1,11 @@
+SELECT to_char(a)||' is less than '||to_char(b) less_than
+FROM test
+WHERE a < b;
+
+SELECT to_char(a)||' is equal to '||to_char(b) equal_to
+FROM test
+WHERE a = b;
+
+SELECT to_char(a)||' is greater than '||to_char(b) greater_than
+FROM test
+WHERE a > b;

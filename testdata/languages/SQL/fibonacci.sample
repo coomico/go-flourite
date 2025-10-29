@@ -1,0 +1,4 @@
+SELECT round ( EXP ( SUM (ln ( ( 1 + SQRT( 5 ) ) / 2)
+  ) OVER ( ORDER BY level ) ) / SQRT( 5 ) ) fibo
+FROM dual
+CONNECT BY level <= 10;
