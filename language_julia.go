@@ -3,8 +3,8 @@ package flourite
 import "regexp"
 
 var julia = []languagePattern{
-	{expression: regexp.MustCompile(`\busing\s+\w+`), patternType: metaImport},
-	{expression: regexp.MustCompile(`\b(bare\s+)?module\b`), patternType: metaModule},
+	{expression: regexp.MustCompile(`\busing\s+[\w\.:]+`), patternType: metaImport},
+	{expression: regexp.MustCompile(`\b(bare\s+)?module\s+\w+\s*(?:#.*)?$`), patternType: metaModule},
 	{expression: regexp.MustCompile(`function\s+\w+\s*\([^)]*\)`), patternType: keywordFunction},
 
 	// new{T} constructor
