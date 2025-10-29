@@ -3,17 +3,27 @@ package flourite
 import "regexp"
 
 var sql = []languagePattern{
-	{expression: regexp.MustCompile(`(?i)CREATE (TABLE|DATABASE)`), patternType: keywordFunction, nearTop: true},
-	{expression: regexp.MustCompile(`(?i)DROP (TABLE|DATABASE)`), patternType: keywordFunction, nearTop: true},
-	{expression: regexp.MustCompile(`(?i)SHOW DATABASES`), patternType: keywordFunction, nearTop: true},
-	{expression: regexp.MustCompile(`(?i)INSERT INTO`), patternType: keywordFunction},
+	{
+		expression:  regexp.MustCompile(`(?i)\bCREATE\s+(?:TABLE|DATABASE)\b`),
+		patternType: keywordFunction,
+		nearTop:     true,
+	},
+	{expression: regexp.MustCompile(`(?i)\bDROP\s+(?:TABLE|DATABASE)\b`), patternType: keywordFunction, nearTop: true},
+	{expression: regexp.MustCompile(`(?i)\bSHOW\s+DATABASES\b`), patternType: keywordFunction, nearTop: true},
+	{expression: regexp.MustCompile(`(?i)\bINSERT\s+INTO\b`), patternType: keywordFunction},
 	{expression: regexp.MustCompile(`(?i)(SELECT|SELECT DISTINCT)\s`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`(?i)INNER JOIN`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`(?i)(GROUP|ORDER) BY`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`(?i)(END;|COMMIT;)`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`(?i)UPDATE\s+\w+\sSET`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(?i)\bFROM\s+\w+`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(?i)\bWHERE\s+\w+`), patternType: keywordFunction},
+	{
+		expression:  regexp.MustCompile(`(?i)\b(?:INNER|LEFT|RIGHT|FULL(?:\s+OUTER)?)\s+JOIN\b`),
+		patternType: keywordFunction,
+	},
+	{expression: regexp.MustCompile(`(?i)\b(?:GROUP|ORDER)\s+BY\b`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(?i)\b(?:END|COMMIT)\b;`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(?i)\bUPDATE\s+\w+`), patternType: keywordFunction},
+	{expression: regexp.MustCompile(`(?i)\bSET\s+\w+`), patternType: keywordFunction},
 	{expression: regexp.MustCompile(`(?i)VALUES\s*\(\s*(?:\w+|'[^']*'|"[^"]*"|NULL)`), patternType: keywordFunction},
-	{expression: regexp.MustCompile(`--\s*\w*`), patternType: commentLine},
+	{expression: regexp.MustCompile(`--[^\r\n]*`), patternType: commentLine},
 
 	// data types
 	{
@@ -22,6 +32,13 @@ var sql = []languagePattern{
 	},
 	{
 		expression:  regexp.MustCompile(`(?i)(TINYBLOB|TINYTEXT|MEDIUMTEXT|MEDIUMBLOB|LONGTEXT|LONGBLOB|BOOLEAN|BOOL|DATE|YEAR)`),
+		patternType: constantType,
+	},
+
+	// Oracle & Postgre
+	{expression: regexp.MustCompile(`(?i)\bINTERVAL\s+'[^']+'`), patternType: keywordFunction},
+	{
+		expression:  regexp.MustCompile(`(?i)\b(TIMESTAMP|TIMESTAMP WITH TIME ZONE|TIMESTAMPTZ|INTERVAL|CLOB|NCLOB)\b`),
 		patternType: constantType,
 	},
 
