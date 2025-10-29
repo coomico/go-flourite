@@ -14,12 +14,12 @@ var goLang = []languagePattern{
 
 	{expression: regexp.MustCompile(`\b(?:fmt|log|slog)\.\w+\(`), patternType: keywordPrint},
 	{
-		expression:  regexp.MustCompile(`func(?:\s*\(\s*\w*\s+\*?[\w.\[\]]+\s*\))?\s+\w+\s*\([^)]*\)(?:\s*(?:[\w.*\[\]]+(?:\s+[\w.*\[\]]+)*|\([^)]+\)))?\s*\{`),
+		expression:  regexp.MustCompile(`func(?:\s+\([^)]*\))?(?:\s+\w+)?(?:\s*\[[^\]]+\])?\s*\([^)]*\)`),
 		patternType: keywordFunction,
 	},
 	{expression: regexp.MustCompile(`\w+\s*:=\s*.+[^;\n]`), patternType: keywordVariable},
 	{
-		expression:  regexp.MustCompile(`^\s*(var|const)\s+(?:\(|[\w_]+(?:\s*,\s*[\w_]+)*(?:\s+(?:func\([^)]*\)(?:\s+[^=\n]+)?|[^=\n]+?))?\s*(?:=|$))`),
+		expression:  regexp.MustCompile(`^\s*(?:var|const)\s+(?:\(|[\w_]+(?:\s*,\s*[\w_]+)*(?:\s+[^=\n]+?)?\s*=?)`),
 		patternType: keywordVariable,
 	},
 	{expression: regexp.MustCompile(`(}\s*else\s*)?if[^()]+\{`), patternType: keywordControl},
