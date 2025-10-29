@@ -39,7 +39,7 @@ var DefaultStrategy = Strategy{
 // all languages with their points.
 //
 // If there is a shebang on the first lines of code, it will return [DetectedLanguages]
-// containing only language detected by to the given interpreter.
+// containing only language detected by the given interpreter.
 func (s Strategy) Detect(snippet string) DetectedLanguages {
 	snippet = reCRNewline.ReplaceAllString(snippet, "\n")
 	lines := strings.Split(snippet, "\n")
