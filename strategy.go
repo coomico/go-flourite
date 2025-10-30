@@ -48,7 +48,7 @@ func (s Strategy) Detect(snippet string) DetectedLanguages {
 		lines = heuristicOptimization(lines)
 	}
 
-	if strings.Contains(lines[0], "#!") {
+	if len(lines) > 0 && strings.Contains(lines[0], "#!") {
 		interpreter := getInterpreter(lines[0])
 		if lang, ok := interpreterMap[interpreter]; ok {
 			return DetectedLanguages{
