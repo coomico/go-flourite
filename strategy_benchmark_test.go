@@ -7,49 +7,101 @@ import (
 var blackhole string
 
 func BenchmarkDefaultStrategy(b *testing.B) {
-	snippet := `package chroma
+	snippet := `package fzf
 
 import (
-	"io"
+	"errors"
+	"os"
+	"strings"
 )
 
-// A Formatter for Chroma lexers.
-type Formatter interface {
-	// Format returns a formatting function for tokens.
-	//
-	// If the iterator panics, the Formatter should recover.
-	Format(w io.Writer, style *Style, iterator Iterator) error
+// History struct represents input history
+type History struct {
+	path     string
+	lines    []string
+	modified map[int]string
+	maxSize  int
+	cursor   int
 }
 
-// A FormatterFunc is a Formatter implemented as a function.
-//
-// Guards against iterator panics.
-type FormatterFunc func(w io.Writer, style *Style, iterator Iterator) error
-
-func (f FormatterFunc) Format(w io.Writer, s *Style, it Iterator) (err error) { // nolint
-	defer func() {
-		if perr := recover(); perr != nil {
-			err = perr.(error)
+// NewHistory returns the pointer to a new History struct
+func NewHistory(path string, maxSize int) (*History, error) {
+	fmtError := func(e error) error {
+		if os.IsPermission(e) {
+			return errors.New("permission denied: " + path)
 		}
-	}()
-	return f(w, s, it)
-}
+		return errors.New("invalid history file: " + e.Error())
+	}
 
-type recoveringFormatter struct {
-	Formatter
-}
-
-func (r recoveringFormatter) Format(w io.Writer, s *Style, it Iterator) (err error) {
-	defer func() {
-		if perr := recover(); perr != nil {
-			err = perr.(error)
+	// Read history file
+	data, err := os.ReadFile(path)
+	if err != nil {
+		// If it doesn't exist, check if we can create a file with the name
+		if os.IsNotExist(err) {
+			data = []byte{}
+			if err := os.WriteFile(path, data, 0600); err != nil {
+				return nil, fmtError(err)
+			}
+		} else {
+			return nil, fmtError(err)
 		}
-	}()
-	return r.Formatter.Format(w, s, it)
+	}
+	// Split lines and limit the maximum number of lines
+	lines := strings.Split(strings.Trim(string(data), "\n"), "\n")
+	if len(lines[len(lines)-1]) > 0 {
+		lines = append(lines, "")
+	}
+	return &History{
+		path:     path,
+		maxSize:  maxSize,
+		lines:    lines,
+		modified: make(map[int]string),
+		cursor:   len(lines) - 1}, nil
 }
 
-// RecoveringFormatter wraps a formatter with panic recovery.
-func RecoveringFormatter(formatter Formatter) Formatter { return recoveringFormatter{formatter} }`
+func (h *History) append(line string) error {
+	// We don't append empty lines
+	if len(line) == 0 {
+		return nil
+	}
+
+	lines := append(h.lines[:len(h.lines)-1], line)
+	if len(lines) > h.maxSize {
+		lines = lines[len(lines)-h.maxSize:]
+	}
+	h.lines = append(lines, "")
+	return os.WriteFile(h.path, []byte(strings.Join(h.lines, "\n")), 0600)
+}
+
+func (h *History) override(str string) {
+	// You can update the history, but they're not written to the file
+	if h.cursor == len(h.lines)-1 {
+		h.lines[h.cursor] = str
+	} else if h.cursor < len(h.lines)-1 {
+		h.modified[h.cursor] = str
+	}
+}
+
+func (h *History) current() string {
+	if str, prs := h.modified[h.cursor]; prs {
+		return str
+	}
+	return h.lines[h.cursor]
+}
+
+func (h *History) previous() string {
+	if h.cursor > 0 {
+		h.cursor--
+	}
+	return h.current()
+}
+
+func (h *History) next() string {
+	if h.cursor < len(h.lines)-1 {
+		h.cursor++
+	}
+	return h.current()
+}`
 
 	for i := 0; i < b.N; i++ {
 		blackhole = Detect(snippet).Best().Language.String()

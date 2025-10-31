@@ -112,59 +112,30 @@ var interpreterMap = map[string]LangKind{
 	"tsx":         TypeScript,
 }
 
-func getPatterns(lang LangKind) ([]languagePattern, bool) {
-	switch lang {
-	case C:
-		return cLang, true
-	case Clojure:
-		return clojure, true
-	case Cpp:
-		return cpp, true
-	case CS:
-		return cs, true
-	case CSS:
-		return css, true
-	case Dart:
-		return dart, true
-	case Dockerfile:
-		return dockerfile, true
-	case Elixir:
-		return elixir, true
-	case Go:
-		return goLang, true
-	case HTML:
-		return html, true
-	case Java:
-		return java, true
-	case JavaScript:
-		return javascript, true
-	case JSON:
-		return json, true
-	case Julia:
-		return julia, true
-	case Kotlin:
-		return kotlin, true
-	case Lua:
-		return lua, true
-	case Markdown:
-		return markdown, true
-	case Pascal:
-		return pascal, true
-	case PHP:
-		return php, true
-	case Python:
-		return python, true
-	case Ruby:
-		return ruby, true
-	case Rust:
-		return rust, true
-	case SQL:
-		return sql, true
-	case TypeScript:
-		return typescript, true
-	case YAML:
-		return yaml, true
-	default:
-		return nil, false
-	}
+var patternMap = map[LangKind][]languagePattern{
+	C:          cLang,
+	Clojure:    clojure,
+	Cpp:        cpp,
+	CS:         cs,
+	CSS:        css,
+	Dart:       dart,
+	Dockerfile: dockerfile,
+	Elixir:     elixir,
+	Go:         goLang,
+	HTML:       html,
+	Java:       java,
+	JavaScript: javascript,
+	JSON:       json,
+	Julia:      julia,
+	Kotlin:     kotlin,
+	Lua:        lua,
+	Markdown:   markdown,
+	Pascal:     pascal,
+	PHP:        php,
+	Python:     python,
+	Ruby:       ruby,
+	Rust:       rust,
+	SQL:        sql,
+	TypeScript: typescript,
+	YAML:       yaml,
 }

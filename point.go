@@ -2,6 +2,7 @@ package flourite
 
 import (
 	"strconv"
+	"strings"
 )
 
 // A LangPoint describes a single result in a [DetectedLanguages].
@@ -12,7 +13,11 @@ type LangPoint struct {
 
 // String return the language name along with its points.
 func (lp LangPoint) String() string {
-	return lp.Language.String() + ":" + strconv.Itoa(lp.Points)
+	var sb strings.Builder
+	sb.WriteString(lp.Language.String())
+	sb.WriteByte(':')
+	sb.WriteString(strconv.Itoa(lp.Points))
+	return sb.String()
 }
 
 func parsePoint(p patternType) int {
@@ -48,25 +53,25 @@ func parsePoint(p patternType) int {
 	}
 }
 
-func getPoints(line string, patterns []languagePattern, isNearTop bool) int {
+func getPoints(content string, isNearTop bool, patterns []languagePattern) int {
 	var points int
-	for _, languagePattern := range patterns {
-		if languagePattern.nearTop && !isNearTop {
+	for _, pattern := range patterns {
+		if pattern.nearTop && !isNearTop {
 			continue
 		}
 
-		if valid := languagePattern.expression.MatchString(line); valid {
-			points += parsePoint(languagePattern.patternType)
+		if valid := pattern.expression.MatchString(content); valid {
+			points += parsePoint(pattern.patternType)
 		}
 	}
 
 	return points
 }
 
-func isNearTop(i int, lines []string) bool {
-	if len(lines) <= 10 {
+func isNearTop(i, length int) bool {
+	if length <= 10 {
 		return true
 	}
 
-	return i < len(lines)/10
+	return i < length/10
 }

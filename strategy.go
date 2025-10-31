@@ -10,7 +10,6 @@ import (
 )
 
 var (
-	reCRNewline = regexp.MustCompile(`[\r\n]+`)
 	reEmptyLine = regexp.MustCompile(`^\s*$`)
 	reVersion   = regexp.MustCompile(`((?:\d+\.?)+)`)
 
@@ -26,7 +25,7 @@ type Strategy struct {
 	IsUnknown bool
 
 	// Heuristic is an option to enable heuristic optimization for better performance.
-	// Only usefull when the number of lines of code is more than 500.
+	// Only useful when the number of lines of code is more than 500.
 	Heuristic bool
 }
 
@@ -41,12 +40,9 @@ var DefaultStrategy = Strategy{
 // If there is a shebang on the first lines of code, it will return [DetectedLanguages]
 // containing only language detected by the given interpreter.
 func (s Strategy) Detect(snippet string) DetectedLanguages {
-	snippet = reCRNewline.ReplaceAllString(snippet, "\n")
-	lines := strings.Split(snippet, "\n")
-
-	if s.Heuristic && len(lines) > 500 {
-		lines = heuristicOptimization(lines)
-	}
+	lines := strings.FieldsFunc(snippet, func(r rune) bool {
+		return r == '\r' || r == '\n'
+	})
 
 	if len(lines) > 0 && strings.Contains(lines[0], "#!") {
 		interpreter := getInterpreter(lines[0])
@@ -57,25 +53,30 @@ func (s Strategy) Detect(snippet string) DetectedLanguages {
 		}
 	}
 
+	if s.Heuristic && len(lines) > 500 {
+		lines = heuristicOptimization(lines)
+	}
+
 	results := make(DetectedLanguages, 0, len(langNames))
 	if s.IsUnknown {
 		results = append(results, LangPoint{Unknown, 1})
 	}
 
+	linesLength := len(lines)
 	for i := 1; i < len(langNames); i++ {
-		patterns, ok := getPatterns(LangKind(i))
+		patterns, ok := patternMap[LangKind(i)]
 		if !ok {
 			continue
 		}
 
 		var points int
-		for i := 0; i < len(lines); i++ {
+		for j, line := range lines {
 			// skip for empty line or contains only spaces
-			if reEmptyLine.MatchString(lines[i]) {
+			if reEmptyLine.MatchString(line) {
 				continue
 			}
 
-			points += getPoints(lines[i], patterns, isNearTop(i, lines))
+			points += getPoints(line, isNearTop(j, linesLength), patterns)
 		}
 
 		results = append(results, LangPoint{LangKind(i), points})
@@ -139,15 +140,13 @@ func getInterpreter(s string) string {
 
 func heuristicOptimization(lines []string) []string {
 	length := len(lines)
+	step := int(math.Ceil(float64(length) / 500)) // ⌈length / 500⌉
 	out := make([]string, 0, length)
 
 	for i := 0; i < length; i++ {
-		// position of the line must be near the top or divisible by ⌈length / 500⌉
-		if !isNearTop(i, lines) && i%int(math.Ceil(float64(length)/500)) != 0 {
-			continue
+		if isNearTop(i, length) || i%step == 0 {
+			out = append(out, lines[i])
 		}
-
-		out = append(out, lines[i])
 	}
 	return out
 }
