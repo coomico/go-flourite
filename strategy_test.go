@@ -25,15 +25,13 @@ func TestDetect(t *testing.T) {
 
 			for _, file := range files {
 				filename := file.Name()
-				path := filepath.Join(dirname, filename)
+				sample, err := os.ReadFile(filepath.Join(dirname, filename))
+				if err != nil {
+					t.Error(err)
+				}
 				t.Run(
 					langName+"/"+filename, func(t *testing.T) {
 						t.Parallel()
-						sample, err := os.ReadFile(path)
-						if err != nil {
-							t.Error(err)
-						}
-
 						detected := strategy.Detect(string(sample))
 						got := detected.Best().Language.String()
 						if got != langName {
@@ -68,15 +66,13 @@ func TestDetectWithHeuristicOpt(t *testing.T) {
 
 			for _, file := range files {
 				filename := file.Name()
-				path := filepath.Join(dirname, filename)
+				sample, err := os.ReadFile(filepath.Join(dirname, filename))
+				if err != nil {
+					t.Error(err)
+				}
 				t.Run(
 					langName+"/"+filename, func(t *testing.T) {
 						t.Parallel()
-						sample, err := os.ReadFile(path)
-						if err != nil {
-							t.Error(err)
-						}
-
 						detected := strategy.Detect(string(sample))
 						got := detected.Best().Language.String()
 						if got != langName {

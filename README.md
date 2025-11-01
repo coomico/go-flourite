@@ -6,7 +6,7 @@ Just like the original project, this is a pure Go implementation with no externa
 
 ## Installation
 
-```bash
+```sh
 go get github.com/coomico/go-flourite
 ```
 
@@ -37,6 +37,16 @@ strategy := flourite.Strategy{
 }
 res := strategy.Detect(snippet)
 // ...
+```
+
+## Performance
+All benchmark samples can be found in [testdata/lines](https://github.com/coomico/go-flourite/tree/main/testdata/lines).
+```
+BenchmarkMultiline/100000_lines-2         1	8146513633 ns/op	14018120 B/op	     36 allocs/op
+BenchmarkMultiline/10000_lines-2          2	 883795094 ns/op	 1371616 B/op	     25 allocs/op
+BenchmarkMultiline/1000_lines-2           4	 318228596 ns/op	  120690 B/op	     11 allocs/op
+BenchmarkMultiline/100_lines-2           25	  46593327 ns/op	    9119 B/op	      5 allocs/op
+BenchmarkMultiline/10_lines-2           310	   3853172 ns/op	     889 B/op	      3 allocs/op
 ```
 
 ## Credits
